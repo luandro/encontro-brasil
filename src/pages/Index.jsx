@@ -1,7 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { motion } from "framer-motion";
 import ReactMarkdown from 'react-markdown';
 
@@ -24,6 +23,8 @@ const Index = () => {
   if (isLoadingEventoInfo || isLoadingCronograma) {
     return <div className="flex justify-center items-center h-screen">Carregando...</div>;
   }
+
+  const cronogramaItems = cronograma.split('\n## ').slice(1);
 
   return (
     <div className="min-h-screen bg-[#1E1E24] text-[#C4AF9A]">
@@ -64,29 +65,26 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <Card className="bg-[#21A179] text-[#1E1E24]">
+          <Card className="bg-[#21A179] text-[#1E1E24] p-8">
             <CardHeader>
-              <CardTitle className="text-3xl font-bold">Cronograma</CardTitle>
+              <CardTitle className="text-5xl font-bold mb-8 text-center text-[#FB9F89]">Cronograma</CardTitle>
             </CardHeader>
             <CardContent>
-              <Accordion type="single" collapsible className="w-full">
-                {cronograma.split('\n## ').map((day, index) => {
-                  if (index === 0) return null; // Skip the title
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {cronogramaItems.map((day, index) => {
                   const [title, ...content] = day.split('\n');
+                  const dayNumber = title.match(/\d+/)[0];
                   return (
-                    <AccordionItem key={index} value={`item-${index}`} className="border-b border-[#1E1E24]">
-                      <AccordionTrigger className="text-xl font-semibold py-4 hover:bg-[#FB9F89] hover:text-[#1E1E24] transition-colors">
-                        {title}
-                      </AccordionTrigger>
-                      <AccordionContent className="bg-[#C4AF9A] text-[#1E1E24] p-4 rounded-b-lg">
-                        <ReactMarkdown className="prose prose-lg max-w-none">
-                          {content.join('\n')}
-                        </ReactMarkdown>
-                      </AccordionContent>
-                    </AccordionItem>
+                    <div key={index} className="bg-[#C4AF9A] p-6 rounded-lg shadow-lg">
+                      <h3 className="text-6xl font-bold mb-4 text-[#FB9F89]">{dayNumber}</h3>
+                      <h4 className="text-2xl font-semibold mb-4 text-[#1E1E24]">{title}</h4>
+                      <ReactMarkdown className="prose prose-sm max-w-none text-[#1E1E24]">
+                        {content.join('\n')}
+                      </ReactMarkdown>
+                    </div>
                   );
                 })}
-              </Accordion>
+              </div>
             </CardContent>
           </Card>
         </motion.div>
