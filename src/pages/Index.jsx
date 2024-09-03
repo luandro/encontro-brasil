@@ -2,6 +2,8 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { motion } from "framer-motion";
+import ReactMarkdown from 'react-markdown';
 
 const fetchMarkdownContent = async (file) => {
   const response = await fetch(file);
@@ -24,43 +26,62 @@ const Index = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8 text-center">Evento de Defesa Territorial - Aldeia Galheiro Novo</h1>
-      
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Informações do Evento</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div dangerouslySetInnerHTML={{ __html: eventoInfo }} />
-        </CardContent>
-      </Card>
+    <div className="min-h-screen bg-[#1E1E24] text-[#C4AF9A]">
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="container mx-auto px-4 py-8"
+      >
+        <h1 className="text-5xl font-bold mb-8 text-center text-[#FB9F89]">Evento de Defesa Territorial - Aldeia Galheiro Novo</h1>
+        
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Card className="mb-8 bg-[#81AE9D] text-[#1E1E24]">
+            <CardHeader>
+              <CardTitle className="text-2xl">Informações do Evento</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ReactMarkdown className="prose prose-invert max-w-none">
+                {eventoInfo}
+              </ReactMarkdown>
+            </CardContent>
+          </Card>
+        </motion.div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Cronograma</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Accordion type="single" collapsible className="w-full">
-            {cronograma.split('\n## ').map((day, index) => {
-              if (index === 0) return null; // Skip the title
-              const [title, ...content] = day.split('\n');
-              return (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger>{title}</AccordionTrigger>
-                  <AccordionContent>
-                    <ul className="list-disc pl-6">
-                      {content.map((item, i) => (
-                        <li key={i}>{item.trim()}</li>
-                      ))}
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-              );
-            })}
-          </Accordion>
-        </CardContent>
-      </Card>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <Card className="bg-[#21A179] text-[#1E1E24]">
+            <CardHeader>
+              <CardTitle className="text-2xl">Cronograma</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Accordion type="single" collapsible className="w-full">
+                {cronograma.split('\n## ').map((day, index) => {
+                  if (index === 0) return null; // Skip the title
+                  const [title, ...content] = day.split('\n');
+                  return (
+                    <AccordionItem key={index} value={`item-${index}`}>
+                      <AccordionTrigger className="text-lg font-semibold">{title}</AccordionTrigger>
+                      <AccordionContent>
+                        <ReactMarkdown className="prose prose-invert max-w-none">
+                          {content.join('\n')}
+                        </ReactMarkdown>
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
+              </Accordion>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };
