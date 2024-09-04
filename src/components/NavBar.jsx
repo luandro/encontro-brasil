@@ -10,7 +10,7 @@ const NavBar = ({ onSmoothScroll }) => {
           <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg" onClick={() => onSmoothScroll('informacoes')}>Informações</Button>
           <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg" onClick={() => onSmoothScroll('cronograma')}>Cronograma</Button>
           <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg" onClick={() => onSmoothScroll('participants')}>Participantes</Button>
-          <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg" onClick={() => onSmoothScroll('edicao-anterior')}>I Edição</Button>
+          <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg" onClick={() => onSmoothScroll('edicoes-anteriores')}>Edições Anteriores</Button>
         </div>
       </nav>
     </header>
