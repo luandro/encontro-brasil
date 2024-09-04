@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '@/components/Loader';
 import NavBar from '@/components/NavBar';
@@ -53,6 +53,14 @@ const Index = () => {
   const [participantsMarkdown, setParticipantsMarkdown] = useState("");
   const [pastEditionsMarkdown, setPastEditionsMarkdown] = useState("");
   const [pastEditionsMetaData, setPastEditionsMetaData] = useState({});
+  const [activeSection, setActiveSection] = useState('');
+
+  const sectionRefs = {
+    informacoes: useRef(null),
+    cronograma: useRef(null),
+    participants: useRef(null),
+    'edicoes-anteriores': useRef(null),
+  };
 
   const { data: eventoInfo, isLoading: isLoadingEventoInfo } = useQuery({
     queryKey: ['eventoInfo'],
@@ -106,6 +114,33 @@ const Index = () => {
     }
   }, [pastEditions]);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    Object.values(sectionRefs).forEach((ref) => {
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+    });
+
+    return () => {
+      Object.values(sectionRefs).forEach((ref) => {
+        if (ref.current) {
+          observer.unobserve(ref.current);
+        }
+      });
+    };
+  }, []);
+
   if (isLoadingEventoInfo || isLoadingCronograma || isLoadingParticipants || isLoadingPastEditions) {
     return <div className="flex justify-center items-center h-screen bg-[#FFF5E1]">
       <Loader />
@@ -122,7 +157,7 @@ const Index = () => {
   console.log(eventoInfoMetaData)
   return (
     <div className="min-h-screen bg-[#FFF5E1] text-[#1E3D59]">
-      <NavBar onSmoothScroll={smoothScroll} />
+      <NavBar onSmoothScroll={smoothScroll} activeSection={activeSection} />
 
       <main className="pt-40 container mx-auto px-4 py-12">
         <Hero
@@ -132,21 +167,29 @@ const Index = () => {
           subTitle2={eventoInfoMetaData.subTitle2}
           onSmoothScroll={smoothScroll}
         />
-        <Info
-          data={eventoInfoMetaData.data}
-          local={eventoInfoMetaData.local}
-          localMedia={eventoInfoMetaData.localMedia}
-          markdown={eventoInfoMarkdown}
-        />
-        <Chronogram cronogramaItems={cronogramaItems} />
-        <Participants 
-          participantsData={participantsMarkdown.split('\n## ').slice(1)} 
-          title={participantsMarkdown.split('\n')[0].replace('# ', '')}
-        />
-        <PastEditions
-          markdown={pastEditionsMarkdown}
-          metaData={pastEditionsMetaData}
-        />
+        <div id="informacoes" ref={sectionRefs.informacoes}>
+          <Info
+            data={eventoInfoMetaData.data}
+            local={eventoInfoMetaData.local}
+            localMedia={eventoInfoMetaData.localMedia}
+            markdown={eventoInfoMarkdown}
+          />
+        </div>
+        <div id="cronograma" ref={sectionRefs.cronograma}>
+          <Chronogram cronogramaItems={cronogramaItems} />
+        </div>
+        <div id="participants" ref={sectionRefs.participants}>
+          <Participants 
+            participantsData={participantsMarkdown.split('\n## ').slice(1)} 
+            title={participantsMarkdown.split('\n')[0].replace('# ', '')}
+          />
+        </div>
+        <div id="edicoes-anteriores" ref={sectionRefs['edicoes-anteriores']}>
+          <PastEditions
+            markdown={pastEditionsMarkdown}
+            metaData={pastEditionsMetaData}
+          />
+        </div>
       </main>
 
       <Footer />

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 
-const NavBar = ({ onSmoothScroll }) => {
+const NavBar = ({ onSmoothScroll, activeSection }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -26,7 +26,7 @@ const NavBar = ({ onSmoothScroll }) => {
             <Button
               key={item.target}
               variant="ghost"
-              className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg"
+              className={`text-[#FFF5E1] hover:text-[#1E3D59] text-lg ${activeSection === item.target ? 'bg-[#1E3D59] text-[#FFF5E1]' : ''}`}
               onClick={() => onSmoothScroll(item.target)}
             >
               {item.label}
@@ -63,7 +63,7 @@ const NavBar = ({ onSmoothScroll }) => {
             <Button
               key={item.target}
               variant="ghost"
-              className="w-full text-left text-[#FFF5E1] hover:text-[#1E3D59] text-lg py-2"
+              className={`w-full text-left text-[#FFF5E1] hover:text-[#1E3D59] text-lg py-2 ${activeSection === item.target ? 'bg-[#1E3D59] text-[#FFF5E1]' : ''}`}
               onClick={() => {
                 onSmoothScroll(item.target);
                 setIsMenuOpen(false);
