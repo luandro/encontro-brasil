@@ -83,7 +83,7 @@ const PastEditions = ({ markdown, metaData }) => {
           {modalContent && modalContent.type === 'video' && (
             <div className="aspect-w-16 aspect-h-9">
               <iframe
-                src={modalContent.src}
+                src={`${modalContent.src}?autoplay=1`}
                 title={modalContent.title}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
