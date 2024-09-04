@@ -42,6 +42,7 @@ const Index = () => {
   const [cronogramaMetaData, setCronogramaMetaData] = useState({});
   const [participantsMarkdown, setParticipantsMarkdown] = useState("");
   const [pastEditionsMarkdown, setPastEditionsMarkdown] = useState("");
+  const [pastEditionsMetaData, setPastEditionsMetaData] = useState({});
 
   const { data: eventoInfo, isLoading: isLoadingEventoInfo } = useQuery({
     queryKey: ['eventoInfo'],
@@ -84,7 +85,15 @@ const Index = () => {
     }
   }, [participants]);
 
-  if (isLoadingEventoInfo || isLoadingCronograma || isLoadingParticipants) {
+  useEffect(() => {
+    if (pastEditions) {
+      const [rawMeta, metaData] = extractMetaData(pastEditions);
+      setPastEditionsMetaData(metaData);
+      setPastEditionsMarkdown(pastEditions.replace(rawMeta, ""));
+    }
+  }, [pastEditions]);
+
+  if (isLoadingEventoInfo || isLoadingCronograma || isLoadingParticipants || isLoadingPastEditions) {
     return <div className="flex justify-center items-center h-screen bg-[#FFF5E1]">Carregando...</div>;
   }
 
@@ -120,7 +129,7 @@ const Index = () => {
           title={participantsMarkdown.split('\n')[0].replace('# ', '')}
         />
         <PastEditions
-          markdown={pastEditionsMarkdow}
+          markdown={pastEditionsMarkdown}
           metaData={pastEditionsMetaData}
         />
       </main>
