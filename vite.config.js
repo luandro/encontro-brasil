@@ -9,6 +9,7 @@ export default defineConfig({
     host: "::",
     port: "8080",
   },
+  base: process.env.GITHUB_ACTIONS || process.env.NODE_ENV === 'production' ? '/encontro-brasil/' : '/',
   plugins: [react()],
   resolve: {
     alias: [
