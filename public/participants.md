@@ -1,6 +1,6 @@
 # Participantes
 
-## Awana Digital
+## Awana Brasil
 ![Logo Awana Brasil](/logos/logo_awana.png)
 
 ### Maria Silva
@@ -31,14 +31,11 @@
 - Bio: Rafael coordena o desenvolvimento de novas ferramentas digitais.
 
 ## Fundação Nacional dos Povos Indígenas
-![Logo Igreja Batista Central](/logos/logo_funai.png)
+![Logo Fundação Nacional dos Povos Indígenas](/logos/logo_funai.png)
 
 ### Ana Santos
 - Função: Líder de Ministério Infantil
 - Bio: Ana lidera uma equipe de 50 voluntários em sua igreja local.
-
-## Fundação Nacional dos Povos Indígenas
-![Logo Igreja Presbiteriana Renovada](/logos/funai.png)
 
 ### Pedro Almeida
 - Função: Pastor de Famílias
