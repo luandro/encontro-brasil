@@ -108,7 +108,10 @@ const Index = () => {
           markdown={eventoInfoMarkdown}
         />
         <Chronogram cronogramaItems={cronogramaItems} />
-        <Participants participantsData={participantsMarkdown.split('\n## ').slice(1)} />
+        <Participants 
+          participantsData={participantsMarkdown.split('\n## ').slice(1)} 
+          title={participantsMarkdown.split('\n')[0].replace('# ', '')}
+        />
       </main>
 
       <Footer />
