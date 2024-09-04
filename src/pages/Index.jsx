@@ -123,24 +123,25 @@ const Index = () => {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.5, rootMargin: "0px 0px -200px 0px" }
     );
 
-    Object.values(sectionRefs).forEach((ref) => {
+    const currentRefs = Object.values(sectionRefs).filter(ref => ref.current);
+    
+    currentRefs.forEach((ref) => {
       if (ref.current) {
         observer.observe(ref.current);
       }
     });
 
     return () => {
-      Object.values(sectionRefs).forEach((ref) => {
+      currentRefs.forEach((ref) => {
         if (ref.current) {
           observer.unobserve(ref.current);
         }
       });
     };
-  }, []);
-
+  }, [sectionRefs]);
   if (isLoadingEventoInfo || isLoadingCronograma || isLoadingParticipants || isLoadingPastEditions) {
     return <div className="flex justify-center items-center h-screen bg-[#FFF5E1]">
       <Loader />
@@ -154,7 +155,6 @@ const Index = () => {
   }
 
   const cronogramaItems = cronogramaMarkdown.split('\n## ').slice(1);
-  console.log(eventoInfoMetaData)
   return (
     <div className="min-h-screen bg-[#FFF5E1] text-[#1E3D59]">
       <NavBar onSmoothScroll={smoothScroll} activeSection={activeSection} />

@@ -18,7 +18,12 @@ const NavBar = ({ onSmoothScroll, activeSection }) => {
   return (
     <header className="bg-[#FF6E40] py-6 fixed w-full z-10">
       <nav className="container mx-auto flex justify-between items-center">
-        <img src="/logos/logo_awana.png" alt="Evento image 1" className="h-12 object-contain" />
+        <img 
+          src="/logos/logo_awana.png" 
+          alt="Evento image 1" 
+          className="h-12 object-contain cursor-pointer" 
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        />
         
         {/* Menu para desktop */}
         <div className="hidden md:flex space-x-4">
