@@ -1,26 +1,20 @@
 ---
-title: Edições Anteriores
-subtitle: Reviva os momentos marcantes da última edição
-gallery:
-  - type: image
-    src: /images/past-edition-1.jpg
-    alt: Palestra principal da última edição
-  - type: video
-    src: https://www.youtube.com/embed/dQw4w9WgXcQ
-    title: Vídeo resumo do evento
-  - type: image
-    src: /images/past-edition-2.jpg
-    alt: Participantes em uma sessão de networking
-  - type: image
-    src: /images/past-edition-3.jpg
-    alt: Exposição de projetos inovadores
-  - type: video
-    src: https://www.youtube.com/embed/dQw4w9WgXcQ
-    title: Entrevistas com palestrantes
+title: Edição Anterior
+subtitle: Primeiro encontro em 2023 na aldeia Juçaral, TI Araribóia
 ---
+# Galeria de Edições Anteriores
 
-# Edições Anteriores
+## Palestra principal da última edição
+![Palestra principal da última edição](/images/past-edition-1.jpg)
 
-Bem-vindo à nossa galeria de edições anteriores! Aqui você pode reviver os momentos mais marcantes e inspiradores do nosso último evento. De palestras emocionantes a networking produtivo, cada imagem e vídeo conta uma história de inovação, aprendizado e colaboração.
+## Vídeo resumo do evento
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Vídeo resumo do evento" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Explore nossa galeria e sinta-se parte dessa jornada incrível. Mal podemos esperar para criar mais memórias com você na próxima edição!
+## Participantes em uma sessão de networking
+![Participantes em uma sessão de networking](/images/past-edition-2.jpg)
+
+## Exposição de projetos inovadores
+![Exposição de projetos inovadores](/images/past-edition-3.jpg)
+
+## Entrevistas com palestrantes
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Entrevistas com palestrantes" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
