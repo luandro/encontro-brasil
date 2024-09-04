@@ -2,10 +2,6 @@
 
 ## Sobre o Projeto
 
-**Projeto**: encontro-territorial-kraho
-
-**URL**: https://run.gptengineer.app/projects/6b88d67a-da33-467e-925b-1098fcdf1b9a/improve
-
 ## Cronograma do Evento
 
 O evento ocorrerá de 15 a 23 de setembro, de 2024 com atividades diárias. Alguns destaques incluem:
