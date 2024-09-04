@@ -81,14 +81,14 @@ const PastEditions = ({ markdown, metaData }) => {
             <img src={modalContent.src} alt={modalContent.alt} className="max-w-full max-h-[80vh]" />
           )}
           {modalContent && modalContent.type === 'video' && (
-            <div className="aspect-w-16 aspect-h-9">
+            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
               <iframe
                 src={`${modalContent.src}?autoplay=1`}
                 title={modalContent.title}
                 frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                 allowFullScreen
-                className="w-full h-full"
+                className="absolute top-0 left-0 w-full h-full"
               ></iframe>
             </div>
           )}
