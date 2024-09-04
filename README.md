@@ -1,72 +1,50 @@
-# Welcome to your GPT Engineer project
+# Encontro Territorial Brasil na TI Krahô 2024
 
-## Project info
+## Sobre o Projeto
 
-**Project**: encontro-territorial-kraho
+**Projeto**: encontro-territorial-kraho
 
 **URL**: https://run.gptengineer.app/projects/6b88d67a-da33-467e-925b-1098fcdf1b9a/improve
 
-## How can I edit this code?
+## Cronograma do Evento
 
-There are several ways of editing your application.
+O evento ocorrerá de 15 a 23 de setembro, de 2024 com atividades diárias. Alguns destaques incluem:
 
-**Use GPT Engineer**
+- Domingo, 15: Chegada dos convidados Krahô
+- Segunda, 16: Cantos até o amanhecer
+- Terça, 17: Apresentações e batismos
+- Quarta a Sexta: Palestras e atividades sobre território e tecnologia
+- Sábado, 21: Feira de artesanato e preparação para rituais
+- Domingo, 22: Apresentação das Guerreiras Krahô
+- Segunda, 23: Retorno para aldeias e cidades
 
-Simply visit the GPT Engineer project at [GPT Engineer](https://gptengineer.app/projects/6b88d67a-da33-467e-925b-1098fcdf1b9a/improve) and start prompting.
+Para o cronograma completo, consulte o arquivo `public/cronograma.md`.
 
-Changes made via gptengineer.app will be committed automatically to this repo.
+## Tecnologias Utilizadas
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in the GPT Engineer UI.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with .
+Este projeto é construído com:
 
 - Vite
 - React
+- React Query
+- Framer Motion
 - shadcn-ui
 - Tailwind CSS
+- React Router
+- React Markdown
 
-## How can I deploy this project?
+Para uma lista completa de dependências, consulte o arquivo `package.json`.
 
-All GPT Engineer projects can be deployed directly via the GPT Engineer app.
+## Como editar este código?
 
-Simply visit your project at [GPT Engineer](https://gptengineer.app/projects/6b88d67a-da33-467e-925b-1098fcdf1b9a/improve) and click on Share -> Publish.
+Existem várias maneiras de editar sua aplicação:
 
-## I want to use a custom domain - is that possible?
+2. **Use seu IDE preferido**: Clone este repositório e trabalhe localmente.
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.gptengineer.app/tips-tricks/custom-domain/)
+3. **Edite um arquivo diretamente no GitHub**: Navegue até o arquivo desejado, clique no botão "Edit" e faça suas alterações.
+
+4. **Use GitHub Codespaces**: Inicie um novo Codespace a partir do repositório para um ambiente de desenvolvimento baseado na nuvem.
+
+## Como executar o projeto localmente
+
+Certifique-se de ter Node.js e npm instalados, então siga estes passos:
