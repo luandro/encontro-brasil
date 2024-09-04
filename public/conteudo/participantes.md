@@ -3,20 +3,30 @@
 ## Awana Digital
 ![Logo Awana Digital](/logos/logo_awana.png)
 
-### João Oliveira
-Desenvolvedor de Conteúdo Digital
+### Bárbara González Segovia 
+Coordenadora do Programa de Mulheres
 
-### Lúcia Mendes
+### Luandro Vieira
+Coordenador do Programa do Brasil
 
-### Rafael Souza
-Desenvolvimento de novas ferramentas digitais.
+### Ben Taerea
+Kit de Ferramentas para Defensores da Terra
 
 ## Centro de Trabalho Indigenista
 ![Logo CTI](/logos/logo_cti.png)
 
-### Ana Santos
+### Paula
+
+### Renan
 
 ## Fundação Nacional dos Povos Indígenas
 ![Logo FUNAI](/logos/logo_funai.png)
 
-### Pedro Almeida
+### Clara Teixeira Ferrari
+Coordenação Geral de Monitoramento Territorial/Funai SEDE
+
+### Clarisse Marina dos Anjos Raposo
+Serviço de Gestão Ambiental e Territorial da Coordenação Regional Araguaia Tocantins/Funai
+
+### João Mitia Antunha Barbosa
+Serviço de Gestão Ambiental e Territorial da Coordenação Regional Araguaia Tocantins/Funai

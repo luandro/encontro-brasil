@@ -8,7 +8,7 @@ localMedia: aldeia_kraho.jpg
 data: 16 a 23 de setembro de 2024
 ---
 
-Programa do Brasil, Programa das Mulheres e Kit de Ferramentas para Defesa da Terra da [Awana Digital](https://awana.digital).
+Programa do Brasil, Programa das Mulheres e Kit de Ferramentas para Defensores da Terra da [Awana Digital](https://awana.digital).
 
 Juntamente com as organizações indígenas: Guardiões da Floresta da TI Araribóia, Guardiões da Floresta e Guerreiras da Floresta da TI Caru e Guerreiras e Guerreiros Krahô.
 

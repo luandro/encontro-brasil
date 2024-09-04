@@ -54,8 +54,8 @@ const Participants = ({ participantsData, title  }) => {
       {organizations.map((org) => (
         <div key={org.name} className="mb-12">
           <div className="flex items-center justify-center mb-8">
-            <img src={org.logo} alt={`Logo ${org.name}`} className="w-32 h-32 object-contain mr-6" />
-            <h3 className="text-3xl font-bold">{org.name}</h3>
+            <img src={org.logo} alt={`Logo ${org.name}`} className="w-72 h-52 object-contain mr-6" />
+            {/* <h3 className="text-3xl font-bold">{org.name}</h3> */}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {org.participants.map((participant, index) => (
