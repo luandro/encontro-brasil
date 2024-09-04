@@ -4,7 +4,7 @@ import Modal from './Modal';
 const PastEditions = ({ markdown, metaData }) => {
   const [modalContent, setModalContent] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const galleryItems = metaData.gallery.filter(i => i.type !== 'title');
+  const galleryItems = metaData?.gallery?.filter(i => i.type !== 'title') || [];
 
   const openModal = useCallback((item) => {
     const index = galleryItems.findIndex(i => i === item);
