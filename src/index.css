@@ -74,3 +74,10 @@
     @apply bg-background text-foreground;
   }
 }
+a {
+  @apply text-[#FFF5E1] bg-[#FF6E40] px-2 py-1 rounded-md transition-all duration-200 ease-in-out;
+}
+
+a:hover {
+  @apply bg-[#1E3D59] text-[#FFF5E1] shadow-md scale-105 transform;
+}

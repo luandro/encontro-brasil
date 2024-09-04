@@ -74,11 +74,12 @@ const Index = () => {
     <div className="min-h-screen bg-[#FFF5E1] text-[#1E3D59]">
       <header className="bg-[#FF6E40] py-6">
         <nav className="container mx-auto flex justify-between items-center">
-          <h1 className="text-[#FFF5E1] text-2xl font-bold">{eventoInfoMetaData.title}</h1>
+          <img src="/logo_awana.png" alt="Evento image 1" className="h-12 object-contain" />
+          {/* <h1 className="text-[#FFF5E1] text-2xl font-bold">{eventoInfoMetaData.mainTitle}</h1> */}
           <div className="space-x-4">
             <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg">Sobre</Button>
             <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg">Cronograma</Button>
-            <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg">Contato</Button>
+            <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg">I Edição</Button>
           </div>
         </nav>
       </header>
@@ -86,19 +87,26 @@ const Index = () => {
       <main className="container mx-auto px-4 py-12">
         <section className="mb-20">
           <h2 className="text-6xl font-bold mb-8 text-center text-[#FF6E40]">
+            {eventoInfoMetaData.title_2}
+          </h2>
+          <h2 className="text-6xl font-semibold mb-6 text-center text-[#1E3D59]">
             {eventoInfoMetaData.title}
           </h2>
-          <h3 className="text-4xl font-semibold mb-6 text-center text-[#1E3D59]">
-            {eventoInfoMetaData.local}
-          </h3>
           <p className="text-2xl text-center mb-12">
-            {eventoInfoMetaData.data}
+            {eventoInfoMetaData.subTitle}
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-            <img src="/public/awana_logo.png" alt="Evento image 1" className="w-full h-48 object-contain" />
-            <img src="/public/kaaiwar.png" alt="Evento image 2" className="w-full h-40 object-contain" />
-            <img src="/public/logo_guardioes_caru.png" alt="Evento image 3" className="w-full h-48 object-contain" />
-            <img src="/public/logo_guerreiras.png" alt="Evento image 4" className="w-full h-48 object-contain" />
+            <img src="/kaaiwar.png" alt="Logo Kaaiwar" className="w-full h-40 object-contain" />
+            <img src="/logo_guardioes_caru.png" alt="Logo Guardiões da Floresta Caru" className="w-full h-48 object-contain" />
+            <img src="/logo_guerreiras.png" alt="Logo Guerreiras da Floresta" className="w-full h-48 object-contain" />
+            <img src="/logo_kraho.png" alt="Logo Krahô" className="w-full h-48 object-contain" />
+          </div>
+          <p className="text-2xl text-center mb-12">
+            {eventoInfoMetaData.subTitle2}
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 items-center justify-items-center">
+            <img src="/logo_funai.png" alt="Logo FUNAI" className="w-full h-40 object-contain mx-auto" />
+            <img src="/logo_cti.png" alt="Logo CTI" className="w-full h-40 object-contain mx-auto" />
           </div>
           <div className="flex justify-center">
             <Button className="bg-[#FF6E40] text-[#FFF5E1] hover:bg-[#1E3D59] text-xl py-3 px-8">Cronograma</Button>
@@ -107,7 +115,7 @@ const Index = () => {
 
         <section className="mb-20">
           <h2 className="text-5xl font-bold mb-12 text-center text-[#FF6E40]">Informações do Evento</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -115,9 +123,40 @@ const Index = () => {
               className="bg-[#FFC13B] p-8 rounded-lg shadow-lg text-center"
             >
               <CalendarIcon className="w-16 h-16 mx-auto mb-4 text-[#1E3D59]" />
-              <h3 className="text-2xl font-semibold mb-2 text-[#1E3D59]">Data</h3>
-              <p className="text-[#1E3D59]">{eventoInfoMetaData.data}</p>
-              {/* <p className="text-[#1E3D59] mt-2">Chegadas: {eventoInfoMetaData.chegadas}</p> */}
+              <h3 className="mb-8 text-2xl font-semibold text-[#1E3D59]">Data</h3>
+              <div className="flex flex-col items-center justify-start h-full uppercase">
+                {eventoInfoMetaData?.data?.split(/\s+(?=de\s)/).map((part, index) => {
+                  const styles = {
+                    0: { color: '#FF6E40', size: 'text-4xl', weight: 'font-bold' },
+                    1: { color: '#81ae9d', size: 'text-5xl', weight: 'font-semibold' },
+                    default: { color: '#21a179', size: 'text-6xl', weight: 'font-semibold' },
+                    connector: { color: '#FFFFFF', size: 'text-3xl', weight: 'font-normal' }
+                  };
+
+                  const words = part.split(' ');
+                  const isConnector = words[0].toLowerCase() === 'de';
+
+                  return (
+                    <p key={index} className={`${styles[index]?.size || styles.default.size} ${styles[index]?.weight || styles.default.weight} mb-2`}>
+                      {words.map((word, wordIndex) => {
+                        const { color, size, weight } = isConnector && wordIndex === 0
+                          ? styles.connector
+                          : styles[index] || styles.default;
+
+                        const capitalizedWord = index === 0 || (index === 1 && wordIndex === 0)
+                          ? word.charAt(0).toUpperCase() + word.slice(1)
+                          : word;
+
+                        return (
+                          <span key={wordIndex} style={{ color }} className="mr-2">
+                            {capitalizedWord}
+                          </span>
+                        );
+                      })}
+                    </p>
+                  );
+                })}
+              </div>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -125,6 +164,13 @@ const Index = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="bg-[#FFC13B] p-8 rounded-lg shadow-lg text-center"
             >
+              <div className="flex justify-center mb-4">
+                <img
+                  src={`/${eventoInfoMetaData.localMedia}`}
+                  alt="Local do Evento"
+                  className="w-48 h-48 object-cover rounded-full shadow-lg"
+                />
+              </div>
               <MapPinIcon className="w-16 h-16 mx-auto mb-4 text-[#1E3D59]" />
               <h3 className="text-2xl font-semibold mb-2 text-[#1E3D59]">Local</h3>
               <p className="text-[#1E3D59]">{eventoInfoMetaData.local}</p>
@@ -138,7 +184,9 @@ const Index = () => {
               <UsersIcon className="w-16 h-16 mx-auto mb-4 text-[#1E3D59]" />
               <h3 className="text-2xl font-semibold mb-2 text-[#1E3D59]">Organizadores</h3>
               <div className="text-[#1E3D59]">
-                <h4 className="font-semibold mt-2">Awana:</h4>
+                <ReactMarkdown className="prose prose-lg max-w-none text-[#1E3D59]">
+                  {eventoInfoMarkdown}
+                </ReactMarkdown>
               </div>
             </motion.div>
           </div>
@@ -171,13 +219,11 @@ const Index = () => {
         </section>
       </main>
 
-      <footer className="bg-[#1E3D59] text-[#FFF5E1] py-12">
+      <footer className="bg-[#1E3D59] text-[#FFF5E1] py-4">
         <div className="container mx-auto px-4 text-center">
-          <h3 className="text-3xl font-bold mb-4 text-[#FF6E40]">Entre em Contato</h3>
-          <p className="mb-4">Para mais informações, entre em contato conosco:</p>
-          <p className="mb-2">Email: info@eventodefesaterritorial.com</p>
-          <p>Telefone: (00) 1234-5678</p>
-          <p className="mt-8">&copy; 2024 Evento de Defesa Territorial. Todos os direitos reservados.</p>
+          <p>
+            Por <a href="https://awana.digital" className="text-[#FF6E40] hover:underline">Awana Digital</a> 2024
+          </p>
         </div>
       </footer>
     </div>

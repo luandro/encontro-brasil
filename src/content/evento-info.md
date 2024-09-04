@@ -1,6 +1,12 @@
 ---
-title: Evento de Defesa Territorial - Aldeia Galheiro Novo
-local: Aldeia Galheiro Novo, Tocantins, Brasil
-data: 16 a 24 de setembro de 2024
-chegadas: a partir do dia 15
+mainTitle: Intercâmbio de Defesa Territorial
+title: II Intercâmbio de Defesa Territorial
+title_2: I Encontro de Mulheres para Defesa Territorial
+subTitle: Organizações indígenas
+subTitle2: Organizações aliadas
+local: Aldeia Galheiro Novo, Itacajá, Tocantins
+localMedia: aldeia_kraho.jpg
+data: 16 a 23 de setembro de 2024
 ---
+
+Programas do Brasil, Programa das Mulheres e Kit de Ferramentas para Defesa da Terra da [Awana Digital](https://awana.digital). Juntamente com as organizações indígenas Guardiões da Floresta da TI Araribóia, Guardiões da Floresta e Guerreiras da Floresta da TI Caru e Guerreiras e Guerreiros Krahô. Com participação da Fundação Nacional dos Povos Indígenas e do Centro de Trabalho Indigenista.
