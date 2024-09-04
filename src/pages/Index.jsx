@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import ReactMarkdown from 'react-markdown';
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, MapPinIcon, UsersIcon } from 'lucide-react';
+import NavBar from '@/components/NavBar';
 
 const fetchMarkdownContent = async (file) => {
   const response = await fetch(file);
@@ -77,16 +78,7 @@ const Index = () => {
   console.log(eventoInfoMetaData)
   return (
     <div className="min-h-screen bg-[#FFF5E1] text-[#1E3D59]">
-      <header className="bg-[#FF6E40] py-6 fixed w-full">
-        <nav className="container mx-auto flex justify-between items-center">
-          <img src="/logo_awana.png" alt="Evento image 1" className="h-12 object-contain" />
-          <div className="space-x-4">
-            <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg" onClick={() => smoothScroll('informacoes')}>Informações</Button>
-            <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg" onClick={() => smoothScroll('cronograma')}>Cronograma</Button>
-            <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg" onClick={() => smoothScroll('edicao-anterior')}>I Edição</Button>
-          </div>
-        </nav>
-      </header>
+      <NavBar onSmoothScroll={smoothScroll} />
 
       <main className="pt-40 container mx-auto px-4 py-12">
         <section className="mb-20">
