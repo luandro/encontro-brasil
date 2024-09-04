@@ -13,18 +13,23 @@ const Participants = ({ participantsData }) => {
   }, {});
 
   return (
-    <section id="participants" className="my-12">
-      <h2 className="text-3xl font-bold mb-6 text-center">Participantes</h2>
+    <section id="participants" className="my-12 px-4">
+      <h2 className="text-3xl font-bold mb-10 text-center">Participantes</h2>
       {Object.entries(groupedParticipants).map(([org, { logo, participants }]) => (
-        <div key={org} className="mb-8">
-          <div className="flex items-center mb-4">
-            <img src={logo} alt={`Logo ${org}`} className="w-16 h-16 object-contain mr-4" />
+        <div key={org} className="mb-12">
+          <div className="flex items-center justify-center mb-6">
+            <img src={logo} alt={`Logo ${org}`} className="w-20 h-20 object-contain mr-4" />
             <h3 className="text-2xl font-bold">{org}</h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {participants.map((participant, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-6">
-                <ReactMarkdown>{participant}</ReactMarkdown>
+              <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+                <div className="h-24 bg-gray-100 flex items-center justify-center">
+                  <img src={logo} alt={`Logo ${org}`} className="h-16 object-contain" />
+                </div>
+                <div className="p-6">
+                  <ReactMarkdown className="prose">{participant}</ReactMarkdown>
+                </div>
               </div>
             ))}
           </div>
