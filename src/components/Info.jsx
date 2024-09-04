@@ -60,7 +60,7 @@ const Info = ({ data, local, localMedia, markdown }) => {
           <h3 className="text-2xl font-semibold mb-2 text-[#1E3D59]">Local</h3>
           <div className="flex justify-center mb-4">
             <img
-              src={`/${localMedia}`}
+              src={`/imagens/${localMedia}`}
               alt="Local do Evento"
               className="w-48 h-48 object-cover rounded-full shadow-lg"
             />

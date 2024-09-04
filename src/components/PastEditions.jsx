@@ -9,11 +9,8 @@ const PastEditions = ({ markdown, metaData }) => {
         
         {metaData.gallery && metaData.gallery.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {metaData.gallery.map((item, index) => (
+            {metaData.gallery.filter(i => i.type !== 'title').map((item, index) => (
               <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
-                {item.type === 'title' && (
-                  <h3 className="text-2xl font-bold p-4">{item.content}</h3>
-                )}
                 {item.type === 'image' && (
                   <>
                     <img src={item.src} alt={item.alt} className="w-full h-64 object-cover" />
