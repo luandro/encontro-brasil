@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { motion } from "framer-motion";
-import ReactMarkdown from 'react-markdown';
-import { Button } from "@/components/ui/button";
-import { CalendarIcon, MapPinIcon, UsersIcon } from 'lucide-react';
 import NavBar from '@/components/NavBar';
+import Hero from '@/components/Hero';
+import Info from '@/components/Info';
 
 const fetchMarkdownContent = async (file) => {
   const response = await fetch(file);
@@ -81,117 +79,19 @@ const Index = () => {
       <NavBar onSmoothScroll={smoothScroll} />
 
       <main className="pt-40 container mx-auto px-4 py-12">
-        <section className="mb-20">
-          <h2 className="text-6xl font-bold mb-8 text-center text-[#FF6E40]">
-            {eventoInfoMetaData.title_2}
-          </h2>
-          <h2 className="text-6xl font-semibold mb-6 text-center text-[#1E3D59]">
-            {eventoInfoMetaData.title}
-          </h2>
-          <p className="text-2xl text-center mb-12">
-            {eventoInfoMetaData.subTitle}
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-            <img src="/kaaiwar.png" alt="Logo Kaaiwar" className="w-full h-40 object-contain" />
-            <img src="/logo_guardioes_caru.png" alt="Logo Guardiões da Floresta Caru" className="w-full h-48 object-contain" />
-            <img src="/logo_guerreiras.png" alt="Logo Guerreiras da Floresta" className="w-full h-48 object-contain" />
-            <img src="/logo_kraho.png" alt="Logo Krahô" className="w-full h-48 object-contain" />
-          </div>
-          <p className="text-2xl text-center mb-12">
-            {eventoInfoMetaData.subTitle2}
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 items-center justify-items-center">
-            <img src="/logo_funai.png" alt="Logo FUNAI" className="w-full h-40 object-contain mx-auto" />
-            <img src="/logo_cti.png" alt="Logo CTI" className="w-full h-40 object-contain mx-auto" />
-          </div>
-          <div className="flex justify-center">
-            <Button
-              className="bg-[#FF6E40] text-[#FFF5E1] hover:bg-[#1E3D59] text-xl py-3 px-8"
-              onClick={() => smoothScroll('cronograma')}
-            >
-              Cronograma
-            </Button>
-          </div>
-        </section>
-
-        <section className="mb-20">
-          <h2 id="informacoes" className="text-5xl font-bold mb-12 text-center text-[#FF6E40]">Informações do Evento</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-[#FFC13B] p-8 rounded-lg shadow-lg text-center"
-            >
-              <CalendarIcon className="w-16 h-16 mx-auto mb-4 text-[#1E3D59]" />
-              <h3 className="mb-8 text-2xl font-semibold text-[#1E3D59]">Data</h3>
-              <div className="flex flex-col items-center justify-start h-full uppercase">
-                {eventoInfoMetaData?.data?.split(/\s+(?=de\s)/).map((part, index) => {
-                  const styles = {
-                    0: { color: '#FF6E40', size: 'text-4xl', weight: 'font-bold' },
-                    1: { color: '#81ae9d', size: 'text-5xl', weight: 'font-semibold' },
-                    default: { color: '#21a179', size: 'text-6xl', weight: 'font-semibold' },
-                    connector: { color: '#FFFFFF', size: 'text-3xl', weight: 'font-normal' }
-                  };
-
-                  const words = part.split(' ');
-                  const isConnector = words[0].toLowerCase() === 'de';
-
-                  return (
-                    <p key={index} className={`${styles[index]?.size || styles.default.size} ${styles[index]?.weight || styles.default.weight} mb-2`}>
-                      {words.map((word, wordIndex) => {
-                        const { color, size, weight } = isConnector && wordIndex === 0
-                          ? styles.connector
-                          : styles[index] || styles.default;
-
-                        const capitalizedWord = index === 0 || (index === 1 && wordIndex === 0)
-                          ? word.charAt(0).toUpperCase() + word.slice(1)
-                          : word;
-
-                        return (
-                          <span key={wordIndex} style={{ color }} className="mr-2">
-                            {capitalizedWord}
-                          </span>
-                        );
-                      })}
-                    </p>
-                  );
-                })}
-              </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-[#FFC13B] p-8 rounded-lg shadow-lg text-center"
-            >
-              <MapPinIcon className="w-16 h-16 mx-auto mb-4 text-[#1E3D59]" />
-              <h3 className="text-2xl font-semibold mb-2 text-[#1E3D59]">Local</h3>
-              <div className="flex justify-center mb-4">
-                <img
-                  src={`/${eventoInfoMetaData.localMedia}`}
-                  alt="Local do Evento"
-                  className="w-48 h-48 object-cover rounded-full shadow-lg"
-                />
-              </div>
-              <p className="text-[#1E3D59]">{eventoInfoMetaData.local}</p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="bg-[#FFC13B] p-8 rounded-lg shadow-lg text-center"
-            >
-              <UsersIcon className="w-16 h-16 mx-auto mb-4 text-[#1E3D59]" />
-              <h3 className="text-2xl font-semibold mb-2 text-[#1E3D59]">Organizadores</h3>
-              <div className="text-[#1E3D59]">
-                <ReactMarkdown className="prose prose-lg max-w-none text-[#1E3D59]">
-                  {eventoInfoMarkdown}
-                </ReactMarkdown>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+        <Hero
+          title={eventoInfoMetaData.title}
+          title2={eventoInfoMetaData.title_2}
+          subTitle={eventoInfoMetaData.subTitle}
+          subTitle2={eventoInfoMetaData.subTitle2}
+          onSmoothScroll={smoothScroll}
+        />
+        <Info
+          data={eventoInfoMetaData.data}
+          local={eventoInfoMetaData.local}
+          localMedia={eventoInfoMetaData.localMedia}
+          markdown={eventoInfoMarkdown}
+        />
         <section className="mb-20">
           <h2 id="cronograma" className="text-5xl font-bold mb-12 text-center text-[#FF6E40]">Cronograma</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
