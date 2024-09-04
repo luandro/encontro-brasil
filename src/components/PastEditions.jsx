@@ -76,31 +76,35 @@ const PastEditions = ({ markdown, metaData }) => {
       </div>
 
       <Modal isOpen={modalContent !== null} onClose={closeModal}>
-        <div className="relative">
-          {modalContent && modalContent.type === 'image' && (
-            <img src={modalContent.src} alt={modalContent.alt} className="max-w-full max-h-[80vh]" />
-          )}
-          {modalContent && modalContent.type === 'video' && (
-            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-              <iframe
-                src={`${modalContent.src}?autoplay=1`}
-                title={modalContent.title}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                allowFullScreen
-                className="absolute top-0 left-0 w-full h-full"
-              ></iframe>
-            </div>
-          )}
+        <div className="relative flex items-center justify-center">
+          <div className="w-full max-w-4xl">
+            {modalContent && modalContent.type === 'image' && (
+              <img src={modalContent.src} alt={modalContent.alt} className="max-w-full max-h-[80vh] object-contain" />
+            )}
+            {modalContent && modalContent.type === 'video' && (
+              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  src={`${modalContent.src}?autoplay=1`}
+                  title={modalContent.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                  allowFullScreen
+                  className="absolute top-0 left-0 w-full h-full"
+                ></iframe>
+              </div>
+            )}
+          </div>
           <button
             onClick={() => navigate(-1)}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 text-gray-800 hover:bg-opacity-75"
+            className="absolute left-4 md:left-8 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 hover:bg-opacity-100 rounded-full p-3 md:p-4 text-gray-800 text-2xl md:text-3xl shadow-lg transition-all duration-200 ease-in-out"
+            aria-label="Previous"
           >
             &#8592;
           </button>
           <button
             onClick={() => navigate(1)}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 text-gray-800 hover:bg-opacity-75"
+            className="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 hover:bg-opacity-100 rounded-full p-3 md:p-4 text-gray-800 text-2xl md:text-3xl shadow-lg transition-all duration-200 ease-in-out"
+            aria-label="Next"
           >
             &#8594;
           </button>
