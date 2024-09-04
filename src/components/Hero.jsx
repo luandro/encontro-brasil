@@ -14,17 +14,17 @@ const Hero = ({ title, title2, subTitle, subTitle2, onSmoothScroll }) => {
         {subTitle}
       </p>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-        <img src="/kaaiwar.png" alt="Logo Kaaiwar" className="w-full h-40 object-contain" />
-        <img src="/logo_guardioes_caru.png" alt="Logo Guardiões da Floresta Caru" className="w-full h-48 object-contain" />
-        <img src="/logo_guerreiras.png" alt="Logo Guerreiras da Floresta" className="w-full h-48 object-contain" />
-        <img src="/logo_kraho.png" alt="Logo Krahô" className="w-full h-48 object-contain" />
+        <img src="/logos/kaaiwar.png" alt="Logo Kaaiwar" className="w-full h-40 object-contain" />
+        <img src="/logos/logo_guardioes_caru.png" alt="Logo Guardiões da Floresta Caru" className="w-full h-48 object-contain" />
+        <img src="/logos/logo_guerreiras.png" alt="Logo Guerreiras da Floresta" className="w-full h-48 object-contain" />
+        <img src="/logos/logo_kraho.png" alt="Logo Krahô" className="w-full h-48 object-contain" />
       </div>
       <p className="text-2xl text-center mb-12">
         {subTitle2}
       </p>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 items-center justify-items-center">
-        <img src="/logo_funai.png" alt="Logo FUNAI" className="w-full h-40 object-contain mx-auto" />
-        <img src="/logo_cti.png" alt="Logo CTI" className="w-full h-40 object-contain mx-auto" />
+        <img src="/logos/logo_funai.png" alt="Logo FUNAI" className="w-full h-40 object-contain mx-auto" />
+        <img src="/logos/logo_cti.png" alt="Logo CTI" className="w-full h-40 object-contain mx-auto" />
       </div>
       <div className="flex justify-center">
         <Button

@@ -43,17 +43,17 @@ const Index = () => {
 
   const { data: eventoInfo, isLoading: isLoadingEventoInfo } = useQuery({
     queryKey: ['eventoInfo'],
-    queryFn: () => fetchMarkdownContent('/evento-info.md'),
+    queryFn: () => fetchMarkdownContent('/conteudo/evento-info.md'),
   });
 
   const { data: cronograma, isLoading: isLoadingCronograma } = useQuery({
     queryKey: ['cronograma'],
-    queryFn: () => fetchMarkdownContent('/cronograma.md'),
+    queryFn: () => fetchMarkdownContent('/conteudo/cronograma.md'),
   });
 
   const { data: participants, isLoading: isLoadingParticipants } = useQuery({
     queryKey: ['participants'],
-    queryFn: () => fetchMarkdownContent('/participants.md'),
+    queryFn: () => fetchMarkdownContent('/conteudo/participantes.md'),
   });
   useEffect(() => {
     if (eventoInfo) {
