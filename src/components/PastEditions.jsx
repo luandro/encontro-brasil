@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Modal from './Modal';
 
 const PastEditions = ({ markdown, metaData }) => {
+  const [modalContent, setModalContent] = useState(null);
+
+  const openModal = (item) => {
+    setModalContent(item);
+  };
+
+  const closeModal = () => {
+    setModalContent(null);
+  };
+
   return (
     <section id="edicoes-anteriores" className="py-16 bg-[#F5E6D3]">
       <div className="container mx-auto px-4">
@@ -10,7 +21,11 @@ const PastEditions = ({ markdown, metaData }) => {
         {metaData.gallery && metaData.gallery.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {metaData.gallery.filter(i => i.type !== 'title').map((item, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
+              <div
+                key={index}
+                className="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer"
+                onClick={() => openModal(item)}
+              >
                 {item.type === 'image' && (
                   <>
                     <img src={item.src} alt={item.alt} className="w-full h-64 object-cover" />
@@ -19,16 +34,14 @@ const PastEditions = ({ markdown, metaData }) => {
                 )}
                 {item.type === 'video' && (
                   <>
-                    <iframe
-                      width="100%"
-                      height="250"
-                      src={item.src}
-                      title={item.title}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="w-full"
-                    ></iframe>
+                    <div className="relative">
+                      <img src={`https://img.youtube.com/vi/${item.src.split('/').pop()}/0.jpg`} alt={item.title} className="w-full h-64 object-cover" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <svg className="w-16 h-16 text-white opacity-75" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M8 5v10l8-5-8-5z" />
+                        </svg>
+                      </div>
+                    </div>
                     <p className="p-4 text-sm text-gray-600">{item.title}</p>
                   </>
                 )}
@@ -39,6 +52,24 @@ const PastEditions = ({ markdown, metaData }) => {
           <p className="text-center text-xl">Nenhum item de galeria disponível.</p>
         )}
       </div>
+
+      <Modal isOpen={modalContent !== null} onClose={closeModal}>
+        {modalContent && modalContent.type === 'image' && (
+          <img src={modalContent.src} alt={modalContent.alt} className="max-w-full max-h-[80vh]" />
+        )}
+        {modalContent && modalContent.type === 'video' && (
+          <div className="aspect-w-16 aspect-h-9">
+            <iframe
+              src={modalContent.src}
+              title={modalContent.title}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            ></iframe>
+          </div>
+        )}
+      </Modal>
     </section>
   );
 };
