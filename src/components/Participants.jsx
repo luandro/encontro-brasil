@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
 
 const parseParticipantsData = (participantsData) => {
   return participantsData.reduce((acc, participant) => {
@@ -7,16 +6,34 @@ const parseParticipantsData = (participantsData) => {
     const orgName = lines[0].replace('## ', '').trim();
     const logoUrl = lines[1].match(/\((.*?)\)/)[1];
     
-    const participantInfo = lines.slice(2).join('\n').trim();
+    const participantInfo = lines.slice(2);
+    const parsedParticipants = [];
+
+    let currentParticipant = {};
+    participantInfo.forEach(line => {
+      if (line.startsWith('### ')) {
+        if (Object.keys(currentParticipant).length > 0) {
+          parsedParticipants.push(currentParticipant);
+        }
+        currentParticipant = { name: line.replace('### ', '').trim() };
+      } else if (line.startsWith('- ')) {
+        const [key, value] = line.replace('- ', '').split(': ');
+        currentParticipant[key.trim().toLowerCase()] = value.trim();
+      }
+    });
+
+    if (Object.keys(currentParticipant).length > 0) {
+      parsedParticipants.push(currentParticipant);
+    }
 
     const existingOrg = acc.find(org => org.name === orgName);
     if (existingOrg) {
-      existingOrg.participants.push(participantInfo);
+      existingOrg.participants.push(...parsedParticipants);
     } else {
       acc.push({
         name: orgName,
         logo: logoUrl,
-        participants: [participantInfo]
+        participants: parsedParticipants
       });
     }
 
@@ -39,11 +56,18 @@ const Participants = ({ participantsData }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {org.participants.map((participant, index) => (
               <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
-                <div className="h-24 bg-gray-100 flex items-center justify-center">
-                  <img src={org.logo} alt={`Logo ${org.name}`} className="h-16 object-contain" />
-                </div>
                 <div className="p-6">
-                  <ReactMarkdown className="prose">{participant}</ReactMarkdown>
+                  <h4 className="text-xl font-semibold mb-2">{participant.name}</h4>
+                  {Object.entries(participant).map(([key, value]) => {
+                    if (key !== 'name') {
+                      return (
+                        <p key={key} className="mb-1">
+                          <span className="font-medium">{key.charAt(0).toUpperCase() + key.slice(1)}:</span> {value}
+                        </p>
+                      );
+                    }
+                    return null;
+                  })}
                 </div>
               </div>
             ))}
