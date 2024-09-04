@@ -11,15 +11,17 @@ const PastEditions = ({ markdown, metaData }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {metaData.gallery.map((item, index) => (
               <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
-                {item.type === 'title' ? (
+                {item.type === 'title' && (
                   <h3 className="text-2xl font-bold p-4">{item.content}</h3>
-                ) : item.type === 'image' ? (
-                  <div>
+                )}
+                {item.type === 'image' && (
+                  <>
                     <img src={item.src} alt={item.alt} className="w-full h-64 object-cover" />
                     <p className="p-4 text-sm text-gray-600">{item.alt}</p>
-                  </div>
-                ) : item.type === 'video' && (
-                  <div>
+                  </>
+                )}
+                {item.type === 'video' && (
+                  <>
                     <iframe
                       width="100%"
                       height="250"
@@ -31,7 +33,7 @@ const PastEditions = ({ markdown, metaData }) => {
                       className="w-full"
                     ></iframe>
                     <p className="p-4 text-sm text-gray-600">{item.title}</p>
-                  </div>
+                  </>
                 )}
               </div>
             ))}
