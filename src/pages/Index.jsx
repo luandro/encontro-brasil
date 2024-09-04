@@ -4,6 +4,7 @@ import NavBar from '@/components/NavBar';
 import Hero from '@/components/Hero';
 import Info from '@/components/Info';
 import Chronogram from '@/components/Chronogram';
+import Participants from '@/components/Participants';
 import Footer from '@/components/Footer';
 
 const fetchMarkdownContent = async (file) => {
@@ -38,6 +39,7 @@ const Index = () => {
   const [eventoInfoMetaData, setEventoInfoMetaData] = useState({});
   const [cronogramaMarkdown, setCronogramaMarkdown] = useState("");
   const [cronogramaMetaData, setCronogramaMetaData] = useState({});
+  const [participantsMarkdown, setParticipantsMarkdown] = useState("");
 
   const { data: eventoInfo, isLoading: isLoadingEventoInfo } = useQuery({
     queryKey: ['eventoInfo'],
@@ -47,6 +49,11 @@ const Index = () => {
   const { data: cronograma, isLoading: isLoadingCronograma } = useQuery({
     queryKey: ['cronograma'],
     queryFn: () => fetchMarkdownContent('/cronograma.md'),
+  });
+
+  const { data: participants, isLoading: isLoadingParticipants } = useQuery({
+    queryKey: ['participants'],
+    queryFn: () => fetchMarkdownContent('/participants.md'),
   });
   useEffect(() => {
     if (eventoInfo) {
@@ -64,7 +71,13 @@ const Index = () => {
     }
   }, [cronograma]);
 
-  if (isLoadingEventoInfo || isLoadingCronograma) {
+  useEffect(() => {
+    if (participants) {
+      setParticipantsMarkdown(participants);
+    }
+  }, [participants]);
+
+  if (isLoadingEventoInfo || isLoadingCronograma || isLoadingParticipants) {
     return <div className="flex justify-center items-center h-screen bg-[#FFF5E1]">Carregando...</div>;
   }
 
@@ -95,6 +108,7 @@ const Index = () => {
           markdown={eventoInfoMarkdown}
         />
         <Chronogram cronogramaItems={cronogramaItems} />
+        <Participants participantsData={participantsMarkdown.split('\n## ').slice(1)} />
       </main>
 
       <Footer />
