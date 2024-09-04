@@ -5,6 +5,7 @@ import Hero from '@/components/Hero';
 import Info from '@/components/Info';
 import Chronogram from '@/components/Chronogram';
 import Participants from '@/components/Participants';
+import PastEditions from '@/components/PastEditions';
 import Footer from '@/components/Footer';
 
 const fetchMarkdownContent = async (file) => {
@@ -54,6 +55,11 @@ const Index = () => {
   const { data: participants, isLoading: isLoadingParticipants } = useQuery({
     queryKey: ['participants'],
     queryFn: () => fetchMarkdownContent('/conteudo/participantes.md'),
+  });
+
+  const { data: pastEditions, isLoading: isLoadingPastEditions } = useQuery({
+    queryKey: ['pastEditions'],
+    queryFn: () => fetchMarkdownContent('/conteudo/edicoes-anteriores.md'),
   });
   useEffect(() => {
     if (eventoInfo) {
@@ -111,6 +117,10 @@ const Index = () => {
         <Participants 
           participantsData={participantsMarkdown.split('\n## ').slice(1)} 
           title={participantsMarkdown.split('\n')[0].replace('# ', '')}
+        />
+        <PastEditions
+          markdown={pastEditionsMarkdown}
+          metaData={pastEditionsMetaData}
         />
       </main>
 
