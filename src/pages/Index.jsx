@@ -67,23 +67,28 @@ const Index = () => {
     return <div className="flex justify-center items-center h-screen bg-[#FFF5E1]">Carregando...</div>;
   }
 
+  function smoothScroll (to) {
+    document.querySelector(`#${to}`).scrollIntoView({
+      behavior: 'smooth'
+    });
+  }
+
   const cronogramaItems = cronogramaMarkdown.split('\n## ').slice(1);
   console.log(eventoInfoMetaData)
   return (
     <div className="min-h-screen bg-[#FFF5E1] text-[#1E3D59]">
-      <header className="bg-[#FF6E40] py-6">
+      <header className="bg-[#FF6E40] py-6 fixed w-full">
         <nav className="container mx-auto flex justify-between items-center">
           <img src="/logo_awana.png" alt="Evento image 1" className="h-12 object-contain" />
-          {/* <h1 className="text-[#FFF5E1] text-2xl font-bold">{eventoInfoMetaData.mainTitle}</h1> */}
           <div className="space-x-4">
-            <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg">Sobre</Button>
-            <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg">Cronograma</Button>
-            <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg">I Edição</Button>
+            <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg" onClick={() => smoothScroll('informacoes')}>Informações</Button>
+            <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg" onClick={() => smoothScroll('cronograma')}>Cronograma</Button>
+            <Button variant="ghost" className="text-[#FFF5E1] hover:text-[#1E3D59] text-lg" onClick={() => smoothScroll('edicao-anterior')}>I Edição</Button>
           </div>
         </nav>
       </header>
 
-      <main className="container mx-auto px-4 py-12">
+      <main className="pt-40 container mx-auto px-4 py-12">
         <section className="mb-20">
           <h2 className="text-6xl font-bold mb-8 text-center text-[#FF6E40]">
             {eventoInfoMetaData.title_2}
@@ -108,12 +113,17 @@ const Index = () => {
             <img src="/logo_cti.png" alt="Logo CTI" className="w-full h-40 object-contain mx-auto" />
           </div>
           <div className="flex justify-center">
-            <Button className="bg-[#FF6E40] text-[#FFF5E1] hover:bg-[#1E3D59] text-xl py-3 px-8">Cronograma</Button>
+            <Button
+              className="bg-[#FF6E40] text-[#FFF5E1] hover:bg-[#1E3D59] text-xl py-3 px-8"
+              onClick={() => smoothScroll('cronograma')}
+            >
+              Cronograma
+            </Button>
           </div>
         </section>
 
         <section className="mb-20">
-          <h2 className="text-5xl font-bold mb-12 text-center text-[#FF6E40]">Informações do Evento</h2>
+          <h2 id="informacoes" className="text-5xl font-bold mb-12 text-center text-[#FF6E40]">Informações do Evento</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -163,6 +173,8 @@ const Index = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="bg-[#FFC13B] p-8 rounded-lg shadow-lg text-center"
             >
+              <MapPinIcon className="w-16 h-16 mx-auto mb-4 text-[#1E3D59]" />
+              <h3 className="text-2xl font-semibold mb-2 text-[#1E3D59]">Local</h3>
               <div className="flex justify-center mb-4">
                 <img
                   src={`/${eventoInfoMetaData.localMedia}`}
@@ -170,8 +182,6 @@ const Index = () => {
                   className="w-48 h-48 object-cover rounded-full shadow-lg"
                 />
               </div>
-              <MapPinIcon className="w-16 h-16 mx-auto mb-4 text-[#1E3D59]" />
-              <h3 className="text-2xl font-semibold mb-2 text-[#1E3D59]">Local</h3>
               <p className="text-[#1E3D59]">{eventoInfoMetaData.local}</p>
             </motion.div>
             <motion.div
@@ -191,7 +201,7 @@ const Index = () => {
           </div>
         </section>
         <section className="mb-20">
-          <h2 className="text-5xl font-bold mb-12 text-center text-[#FF6E40]">Cronograma</h2>
+          <h2 id="cronograma" className="text-5xl font-bold mb-12 text-center text-[#FF6E40]">Cronograma</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {cronogramaItems.map((day, index) => {
               const [title, ...content] = day.split('\n');
