@@ -37,6 +37,12 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+      - name: Print environment variables
+        run: |
+          echo "GITHUB_ACTIONS: $GITHUB_ACTIONS"
+          echo "NODE_ENV: $NODE_ENV"
+          echo "Other environment variables:"
+          env
       - name: Build
         run: npm run build
       - name: Setup Pages
