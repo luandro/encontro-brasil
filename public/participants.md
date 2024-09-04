@@ -1,7 +1,7 @@
 # Participantes
 
-## Awana Brasil
-![Logo Awana Brasil](/logos/awana-brasil.png)
+## Awana Digital
+![Logo Awana Brasil](/logos/logo_awana.png)
 
 ### Maria Silva
 - Função: Coordenadora Nacional
@@ -30,15 +30,15 @@
 - Função: Gerente de Projetos
 - Bio: Rafael coordena o desenvolvimento de novas ferramentas digitais.
 
-## Igreja Batista Central
-![Logo Igreja Batista Central](/logos/igreja-batista-central.png)
+## Fundação Nacional dos Povos Indígenas
+![Logo Igreja Batista Central](/logos/logo_funai.png)
 
 ### Ana Santos
 - Função: Líder de Ministério Infantil
 - Bio: Ana lidera uma equipe de 50 voluntários em sua igreja local.
 
-## Igreja Presbiteriana Renovada
-![Logo Igreja Presbiteriana Renovada](/logos/igreja-presbiteriana-renovada.png)
+## Fundação Nacional dos Povos Indígenas
+![Logo Igreja Presbiteriana Renovada](/logos/funai.png)
 
 ### Pedro Almeida
 - Função: Pastor de Famílias
