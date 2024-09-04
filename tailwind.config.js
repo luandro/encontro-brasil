@@ -1,3 +1,4 @@
+const aspectRatio = require('@tailwindcss/aspect-ratio');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -74,4 +75,5 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
+    aspectRatio,
 };
