@@ -40,14 +40,13 @@ const Index = () => {
 
   const { data: eventoInfo, isLoading: isLoadingEventoInfo } = useQuery({
     queryKey: ['eventoInfo'],
-    queryFn: () => fetchMarkdownContent('/src/content/evento-info.md'),
+    queryFn: () => fetchMarkdownContent('/evento-info.md'),
   });
 
   const { data: cronograma, isLoading: isLoadingCronograma } = useQuery({
     queryKey: ['cronograma'],
-    queryFn: () => fetchMarkdownContent('/src/content/cronograma.md'),
+    queryFn: () => fetchMarkdownContent('/cronograma.md'),
   });
-
   useEffect(() => {
     if (eventoInfo) {
       const [rawMeta, metaData] = extractMetaData(eventoInfo);
