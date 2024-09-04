@@ -41,6 +41,7 @@ const Index = () => {
   const [cronogramaMarkdown, setCronogramaMarkdown] = useState("");
   const [cronogramaMetaData, setCronogramaMetaData] = useState({});
   const [participantsMarkdown, setParticipantsMarkdown] = useState("");
+  const [pastEditionsMarkdown, setPastEditionsMarkdown] = useState("");
 
   const { data: eventoInfo, isLoading: isLoadingEventoInfo } = useQuery({
     queryKey: ['eventoInfo'],
@@ -119,7 +120,7 @@ const Index = () => {
           title={participantsMarkdown.split('\n')[0].replace('# ', '')}
         />
         <PastEditions
-          markdown={pastEditionsMarkdown}
+          markdown={pastEditionsMarkdow}
           metaData={pastEditionsMetaData}
         />
       </main>
