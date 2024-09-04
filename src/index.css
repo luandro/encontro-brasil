@@ -81,3 +81,18 @@ a {
 a:hover {
   @apply bg-[#1E3D59] text-[#FFF5E1] shadow-md scale-105 transform;
 }
+
+@keyframes dash {
+  72.5% {
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@layer utilities {
+  .animate-dash {
+    animation: dash 1.4s linear infinite;
+  }
+}

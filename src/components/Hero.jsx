@@ -10,9 +10,6 @@ const Hero = ({ title, title2, subTitle, subTitle2, onSmoothScroll }) => {
       <h2 className="text-6xl font-semibold mb-6 text-center text-[#1E3D59]">
         {title}
       </h2>
-      <p className="text-2xl text-center mb-12">
-        {subTitle}
-      </p>
       <div className="py-16 grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
         <img src="/logos/kaaiwar.png" alt="Logo Kaaiwar" className="w-full h-40 object-contain" />
         <img src="/logos/logo_guardioes_caru.png" alt="Logo Guardiões da Floresta Caru" className="w-full h-48 object-contain" />

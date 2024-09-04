@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import Loader from '@/components/Loader';
 import NavBar from '@/components/NavBar';
 import Hero from '@/components/Hero';
 import Info from '@/components/Info';
@@ -106,7 +107,9 @@ const Index = () => {
   }, [pastEditions]);
 
   if (isLoadingEventoInfo || isLoadingCronograma || isLoadingParticipants || isLoadingPastEditions) {
-    return <div className="flex justify-center items-center h-screen bg-[#FFF5E1]">Carregando...</div>;
+    return <div className="flex justify-center items-center h-screen bg-[#FFF5E1]">
+      <Loader />
+    </div>;
   }
 
   function smoothScroll (to) {
