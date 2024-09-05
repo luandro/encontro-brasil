@@ -7,11 +7,11 @@ const Info = ({ content }) => {
   const sections = content ? content.split('### ').slice(1) : [];
 
   const localSection = sections.find(section => section.startsWith('Local'));
-  const dataSection = sections.find(section => section.startsWith('Data'));
+  const dateSection = sections.find(section => section.startsWith('Data'));
   const organizationSection = sections.find(section => section.startsWith('Organization'));
 
   const localContent = localSection?.split('\n').slice(1).join('\n').trim();
-  const dataContent = dataSection?.split('\n').slice(1).join('\n').trim();
+  const dateContent = dateSection?.split('\n').slice(1).join('\n').trim();
   const organizationContent = organizationSection?.split('\n').slice(1).join('\n').trim();
 
   const localImage = localContent?.match(/!\[.*?\]\((.*?)\)/)?.[1];
@@ -21,7 +21,7 @@ const Info = ({ content }) => {
     <section id="informacoes" className="mb-20">
       <h2 className="text-5xl font-bold mb-12 text-center text-[#FF6E40]">Informações do Evento</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-        {dataContent && (
+        {dateContent && (
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -31,10 +31,12 @@ const Info = ({ content }) => {
             <CalendarIcon className="w-16 h-16 mx-auto mb-4 text-[#1E3D59]" />
             <h3 className="mb-8 text-2xl font-semibold text-[#1E3D59]">Data</h3>
             <div className="flex flex-col items-stretch justify-start h-full">
-              {dataContent.split('\n').map((line, index) => (
+              {dateContent.split('de').map((line, index, array) => (
                 <div key={index} className="mb-4 last:mb-0 w-full">
                   <div className="bg-[#1E3D59] text-[#FFC13B] py-2 px-4 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300 uppercase font-semibold table table-fixed w-full">
-                    <span className="table-cell text-center">{line}</span>
+                    <span className="table-cell text-center">
+                      {index === array.length - 1 ? 'de ' + line : line}
+                    </span>
                   </div>
                 </div>
               ))}
