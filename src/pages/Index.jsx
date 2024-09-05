@@ -4,7 +4,7 @@ import Loader from '@/components/Loader';
 import NavBar from '@/components/NavBar';
 import Hero from '@/components/Hero';
 import Info from '@/components/Info';
-import Chronogram from '@/components/Chronogram';
+import Schedule from '@/components/Schedule';
 import Participants from '@/components/Participants';
 import PastEditions from '@/components/PastEditions';
 import Footer from '@/components/Footer';
@@ -65,7 +65,7 @@ const Index = () => {
 
   const sectionRefs = {
     informacoes: useRef(null),
-    cronograma: useRef(null),
+    schedule: useRef(null),
     participants: useRef(null),
     'edicoes-anteriores': useRef(null),
   };
@@ -166,8 +166,8 @@ const Index = () => {
   }
   console.log('META', metaData)
   console.log('CONTENT', markdownContents)
-  const cronogramaTitle = markdownContents['Event Schedule']?.split('\n').find(line => line.startsWith('#'))?.replace(/^#+\s*/, '').trim();
-  const cronogramaItems = markdownContents['Event Schedule']?.split('\n\n**').slice(1).map(item => `**${item}`);
+  const scheduleTitle = markdownContents['Event Schedule']?.split('\n').find(line => line.startsWith('#'))?.replace(/^#+\s*/, '').trim();
+  const scheduleItems = markdownContents['Event Schedule']?.split('\n\n**').slice(1).map(item => `**${item}`);
 
   return (
     <div className="min-h-screen bg-[#FFF5E1] text-[#1E3D59]">
@@ -191,9 +191,9 @@ const Index = () => {
             />
           </div>
         )}
-        {cronogramaTitle && cronogramaItems && (
-          <div id="cronograma" ref={sectionRefs.cronograma}>
-            <Chronogram title={cronogramaTitle} cronogramaItems={cronogramaItems} />
+        {scheduleTitle && scheduleItems && (
+          <div id="schedule" ref={sectionRefs.schedule}>
+            <Schedule title={scheduleTitle} scheduleItems={scheduleItems} />
           </div>
         )}
         {metaData['Participants'] && markdownContents['Participants'] && (
