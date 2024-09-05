@@ -14,7 +14,7 @@ export const useMarkdownProcessor = (markdownData) => {
         newMetaData[key] = metaData;
         newMarkdownContents[key] = content.replace(rawMeta, "").trim();
         
-        if (key === 'Edições Anteriores') {
+        if (key === 'Gallery') {
           const galleryItems = extractGalleryItems(newMarkdownContents[key]);
           newMetaData[key] = { ...newMetaData[key], gallery: galleryItems };
         }
