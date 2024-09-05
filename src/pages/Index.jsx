@@ -155,9 +155,9 @@ const Index = () => {
   }
 
   // const cronogramaTitle = cronogramaMarkdown.split('\n')[0].replace(/^## \*\*|\*\*$/g, '');
-  const [cronogramaTitle, ...cronogramaItems] = cronogramaMarkdown.split('\n\n**');
+  const cronogramaTitle = cronogramaMarkdown.split('\n').find(line => line.startsWith('#'))?.replace(/^#+\s*/, '').trim();
+  const cronogramaItems = cronogramaMarkdown.split('\n\n**').slice(1).map(item => `**${item}`);
   // console.log('Evento Info Meta Data:', eventoInfoMetaData);
-  console.log('Cronograma Markdown:', cronogramaTitle, cronogramaItems);
   // console.log('Participants Markdown:', participantsMarkdown);
   // console.log('Past Editions Meta Data:', pastEditionsMetaData);
   // console.log('Past Editions Markdown:', pastEditionsMarkdown);
