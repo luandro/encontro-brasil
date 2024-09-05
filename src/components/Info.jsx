@@ -29,22 +29,26 @@ const Info = ({ content }) => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="bg-[#FFC13B] p-8 rounded-lg shadow-lg text-center"
           >
-            <CalendarIcon className="w-16 h-16 mx-auto mb-4 text-[#1E3D59]" />
+            <CalendarIcon className="w-16 h-16 mx-auto mb-2 text-[#1E3D59]" />
             <h3 className="mb-8 text-2xl font-semibold text-[#1E3D59]">Data</h3>
             <div className="flex flex-col items-stretch justify-start h-full">
-              {dateContent.split('de').map((line, index, array) => (
-                <div key={index} className="mb-4 last:mb-0 w-full h-1/3">
-                  <Textfit
-                    mode="single"
-                    forceSingleModeWidth={false}
-                    min={12}
-                    max={32}
-                    className="w-full h-full text-[#1E3D59] uppercase font-semibold"
-                  >
-                    {index === array.length - 1 ? 'de ' + line.trim() : line.trim()}
-                  </Textfit>
-                </div>
-              ))}
+              {dateContent.split('de').map((line, index, array) => {
+                const colors = ['#1E3D59', '#FF6E40', '#7B341E'];
+                const colorIndex = index % colors.length;
+                return (
+                  <div key={index} className="w-full">
+                    <Textfit
+                      mode="single"
+                      forceSingleModeWidth={true}
+                      min={36}
+                      max={64}
+                      className={`w-full text-[${colors[colorIndex]}] uppercase font-semibold leading-none`}
+                    >
+                      {index === array.length - 1 ? 'de ' + line.trim() : line.trim()}
+                    </Textfit>
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
         )}
