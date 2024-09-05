@@ -25,7 +25,7 @@ const Hero = ({ title, title2, subTitle, logos, onSmoothScroll }) => {
           className="bg-[#FF6E40] text-[#FFF5E1] hover:bg-[#1E3D59] text-xl py-3 px-8"
           onClick={() => onSmoothScroll('schedule')}
         >
-          Schedule
+          Programação
         </Button>
       </div>
     </section>
