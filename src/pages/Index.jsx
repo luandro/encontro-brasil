@@ -32,7 +32,7 @@ const Index = () => {
 
   const scheduleTitle = markdownContents['Event Schedule']?.split('\n').find(line => line.startsWith('#'))?.replace(/^#+\s*/, '').trim();
   const scheduleItems = markdownContents['Event Schedule']?.split('\n\n**').slice(1).map(item => `**${item}`);
-  console.log('meta', metaData['Event Information']);
+  console.log('meta', markdownContents['Event Information']);
   return (
     <div className="min-h-screen bg-[#FFF5E1] text-[#1E3D59]">
       <NavBar onSmoothScroll={smoothScroll} activeSection={activeSection} />
