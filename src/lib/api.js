@@ -6,7 +6,7 @@ export const fetchMarkdownContent = async (file) => {
 };
 
 export const fetchNotionBlocks = async () => {
-  const response = await fetch('/notionBlocks.json');
+  const response = await fetch('/content/notionBlocks.json');
   return response.json();
 };
 

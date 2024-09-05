@@ -6,11 +6,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const CONTENT_PATH = path.join(__dirname, "../../public/content/");
-const JSON_PATH = path.join(__dirname, "../../public/");
 
 // Ensure directories exist
 fs.mkdirSync(CONTENT_PATH, { recursive: true });
-fs.mkdirSync(JSON_PATH, { recursive: true });
 
 export async function generateBlocks(data) {
   const blocks = [];
@@ -41,7 +39,7 @@ export async function generateBlocks(data) {
   }
 
   // Generate JSON file
-  const jsonFilePath = path.join(JSON_PATH, "notionBlocks.json");
+  const jsonFilePath = path.join(CONTENT_PATH, "notionBlocks.json");
   fs.writeFileSync(jsonFilePath, JSON.stringify(blocks, null, 2), 'utf8');
   console.log("notionBlocks.json has been generated successfully.");
 }
