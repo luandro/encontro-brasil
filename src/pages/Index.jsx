@@ -36,6 +36,14 @@ const extractMetaData = (text) => {
   return [rawMeta, metaData];
 };
 
+const extractParticipants = (markdown) => {
+  const sections = markdown.split('\n### ').slice(1);
+  return sections.map(section => {
+    const [name, ...content] = section.split('\n');
+    return { name, content: content.join('\n').trim() };
+  });
+};
+
 const extractGalleryItems = (markdown) => {
   const regex = /^(?:##\s(.+)|!\[(.+?)\]\((.+?)\)|<iframe.*?src="(.+?)".*?title="(.+?)".*?><\/iframe>)/gm;
   const matches = [...markdown.matchAll(regex)];
@@ -98,6 +106,13 @@ const Index = () => {
           const galleryItems = extractGalleryItems(newMarkdownContents[key]);
           console.log('Extracted gallery items:', galleryItems);
           newMetaData[key] = { ...newMetaData[key], gallery: galleryItems };
+        }
+
+        if (key === 'Participants') {
+          console.log('Processing participants...');
+          const participants = extractParticipants(newMarkdownContents[key]);
+          console.log('Extracted participants:', participants);
+          newMetaData[key] = { ...newMetaData[key], participants };
         }
       }
       
@@ -181,11 +196,11 @@ const Index = () => {
             <Chronogram title={cronogramaTitle} cronogramaItems={cronogramaItems} />
           </div>
         )}
-        {markdownContents['Participants'] && (
+        {metaData['Participants'] && markdownContents['Participants'] && (
           <div id="participants" ref={sectionRefs.participants}>
             <Participants 
-              participantsData={markdownContents['Participants'].split('\n### ').slice(1)}
-              title={markdownContents['Participants'].split('\n')[1].replace('## ', '')}
+              participantsData={metaData['Participants'].participants}
+              title={markdownContents['Participants'].split('\n')[0].replace('## ', '')}
             />
           </div>
         )}
