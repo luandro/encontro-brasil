@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Modal from './Modal';
 
-const PastEditions = ({ markdown, metaData }) => {
+const MediaGallery = ({ markdown, metaData }) => {
   const [modalContent, setModalContent] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const galleryItems = metaData?.gallery?.filter(i => i.type !== 'title') || [];
@@ -114,4 +114,4 @@ const PastEditions = ({ markdown, metaData }) => {
   );
 };
 
-export default PastEditions;
+export default MediaGallery;

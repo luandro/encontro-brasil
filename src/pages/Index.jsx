@@ -8,7 +8,7 @@ import Hero from '@/components/Hero';
 import Info from '@/components/Info';
 import Schedule from '@/components/Schedule';
 import Participants from '@/components/Participants';
-import PastEditions from '@/components/PastEditions';
+import MediaGallery from '@/components/MediaGallery';
 import Footer from '@/components/Footer';
 
 const Index = () => {
@@ -66,7 +66,7 @@ const Index = () => {
         )}
         {markdownContents['Edições Anteriores'] && metaData['Edições Anteriores'] && (
           <div id="edicoes-anteriores" ref={sectionRefs['edicoes-anteriores']}>
-            <PastEditions
+            <MediaGallery
               markdown={markdownContents['Edições Anteriores']}
               metaData={metaData['Edições Anteriores']}
             />
