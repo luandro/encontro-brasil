@@ -57,7 +57,7 @@ async function generateCronograma(data) {
 }
 
 // Function to update en.json
-function updateEnJson(data) {
+function updateJson(data) {
 	const enJson = JSON.parse(fs.readFileSync(EN_JSON_PATH, "utf8"));
 	for (const item of data) {
 		const parsed = marked.parse(item.parent);
@@ -105,7 +105,7 @@ async function main() {
 	try {
 		const data = await fetchNotionData();
 		await generateCronograma(data);
-		updateEnJson(data);
+		updateJson(data);
 	} catch (error) {
 		console.error("Error updating files:", error);
 	}
