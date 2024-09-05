@@ -73,7 +73,7 @@ const Index = () => {
       if (!notionBlocks) return null;
       const contents = {};
       for (const block of notionBlocks) {
-        contents[block.name] = await fetchMarkdownContent(`/conteudo/${block.fileName}`);
+        contents[block.name] = await fetchMarkdownContent(`/content/${block.fileName}`);
       }
       return contents;
     },
@@ -83,20 +83,29 @@ const Index = () => {
     if (markdownData) {
       const newMetaData = {};
       const newMarkdownContents = {};
-      
+      console.log('Processing markdown data...');
+      console.log('Starting to process markdown data...');
       for (const [key, content] of Object.entries(markdownData)) {
+        console.log(`Processing ${key}...`);
         const [rawMeta, metaData] = extractMetaData(content);
+        console.log(`Extracted metadata for ${key}:`, metaData);
         newMetaData[key] = metaData;
         newMarkdownContents[key] = content.replace(rawMeta, "").trim();
+        console.log(`Processed content for ${key}:`, newMarkdownContents[key].substring(0, 50) + '...');
         
         if (key === 'Edições Anteriores') {
+          console.log('Processing gallery items for Edições Anteriores...');
           const galleryItems = extractGalleryItems(newMarkdownContents[key]);
+          console.log('Extracted gallery items:', galleryItems);
           newMetaData[key] = { ...newMetaData[key], gallery: galleryItems };
         }
       }
       
+      console.log('Setting new metadata:', newMetaData);
       setMetaData(newMetaData);
+      console.log('Setting new markdown contents...');
       setMarkdownContents(newMarkdownContents);
+      console.log('Finished processing markdown data.');
     }
   }, [markdownData]);
 
