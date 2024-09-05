@@ -30,10 +30,14 @@ const Info = ({ content }) => {
           >
             <CalendarIcon className="w-16 h-16 mx-auto mb-4 text-[#1E3D59]" />
             <h3 className="mb-8 text-2xl font-semibold text-[#1E3D59]">Data</h3>
-            <div className="flex flex-col items-center justify-start h-full uppercase">
-              <ReactMarkdown className="prose prose-lg max-w-none text-[#1E3D59]">
-                {dataContent}
-              </ReactMarkdown>
+            <div className="flex flex-col items-stretch justify-start h-full">
+              {dataContent.split('\n').map((line, index) => (
+                <div key={index} className="mb-4 last:mb-0">
+                  <div className="bg-[#1E3D59] text-[#FFC13B] py-2 px-4 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300 uppercase font-semibold">
+                    {line}
+                  </div>
+                </div>
+              ))}
             </div>
           </motion.div>
         )}
