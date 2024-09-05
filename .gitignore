@@ -23,3 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 .aider*
+
+## Custom
+public/notionBlocks.json
+public/content
+.env

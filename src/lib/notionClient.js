@@ -1,5 +1,9 @@
 import { Client } from "@notionhq/client";
 import { NotionToMarkdown } from "notion-to-md";
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
 
 if (!process.env.NOTION_API_KEY) {
   throw new Error("NOTION_API_KEY is not defined in the environment variables.");

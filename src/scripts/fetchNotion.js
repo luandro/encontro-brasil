@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { fetchNotionData, fetchNotionPage, fetchNotionBlocks } from '../lib/fetchNotionData.js';
-import { generateCronograma } from '../lib/generateCronograma.js';
+import { generateBlocks } from '../lib/generateBlocks.js';
 // import { updateJson } from '../lib/updateJson.js';
 
 // Load environment variables from .env file
@@ -13,9 +13,9 @@ async function main() {
     process.exit(1);
   }
   try {
-	const tag = 'Website';
+	const tag = process.env.WEBSITE_TAG;
     const data = await fetchNotionData(tag);    
-    await generateCronograma(data);
+    await generateBlocks(data);
     // updateJson(data);
   } catch (error) {
     console.error("Error updating files:", error);

@@ -199,8 +199,7 @@ const Index = () => {
         {metaData['Participants'] && markdownContents['Participants'] && (
           <div id="participants" ref={sectionRefs.participants}>
             <Participants 
-              participantsData={metaData['Participants'].participants}
-              title={markdownContents['Participants'].split('\n')[0].replace('## ', '')}
+              markdownContent={markdownContents['Participants']}
             />
           </div>
         )}

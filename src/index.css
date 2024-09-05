@@ -96,3 +96,28 @@ a:hover {
     animation: dash 1.4s linear infinite;
   }
 }
+
+ul {
+  @apply list-none pl-4 space-y-2;
+}
+
+li {
+  @apply relative pl-6 before:content-[''] before:absolute before:left-0 before:top-2 before:w-4 before:h-4 before:bg-[#FF6E40] before:rounded-full before:transform before:transition-all before:duration-300;
+}
+
+li:hover::before {
+  @apply scale-110 bg-[#1E3D59];
+}
+
+li::after {
+  content: '';
+  @apply absolute left-[7px] top-6 w-[2px] h-full bg-[#FF6E40] transform transition-all duration-300;
+}
+
+li:last-child::after {
+  @apply hidden;
+}
+
+li:hover::after {
+  @apply bg-[#1E3D59];
+}

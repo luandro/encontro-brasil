@@ -1,30 +1,43 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 
-const parseParticipantsData = (participantsData) => {
-  return participantsData.reduce((acc, participant) => {
-    const lines = participant.content.split('\n');
-    const logoUrl = lines.find(line => line.startsWith('!['))?.match(/\((.*?)\)/)?.[1] || '';
-    
-    const parsedParticipants = lines
-      .filter(line => line.startsWith('### '))
-      .map(line => {
-        const name = line.replace('### ', '').trim();
-        const description = lines[lines.indexOf(line) + 1]?.trim() || '';
-        return { name, description };
-      });
+const parseParticipantsData = (markdownContent) => {
+  const lines = markdownContent.split('\n');
+  const title = lines.find(line => line.startsWith('# '))?.replace('# ', '').trim();
+  const sections = markdownContent.split('\n## ').slice(1);
+  return {
+    title,
+    organizations: sections.map(section => {
+      const [name, ...content] = section.split('\n');
+      const logoMatch = content.find(line => line.startsWith('!['));
+      const logoUrl = logoMatch ? logoMatch.match(/\((.*?)\)/)[1] : '';
+      
+      const participants = content
+        .filter(line => line.startsWith('### '))
+        .map(line => {
+          const participantName = line.replace('### ', '').trim();
+          const participantIndex = content.indexOf(line);
+          let description = '';
+          for (let i = participantIndex + 1; i < content.length; i++) {
+            if (content[i].startsWith('### ') || content[i].startsWith('## ')) {
+              break;
+            }
+            description += content[i].trim() + '\n';
+          }
+          return { name: participantName, description: description.trim() };
+        });
 
-    acc.push({
-      name: participant.name,
-      logo: logoUrl,
-      participants: parsedParticipants
-    });
-
-    return acc;
-  }, []);
+      return {
+        name: name.trim(),
+        logo: logoUrl,
+        participants
+      };
+    })
+  };
 };
 
-const Participants = ({ participantsData, title }) => {
-  const organizations = parseParticipantsData(participantsData);
+const Participants = ({ markdownContent }) => {
+  const { title, organizations } = parseParticipantsData(markdownContent);
 
   return (
     <section id="participants" className="my-12 px-4">
@@ -42,7 +55,7 @@ const Participants = ({ participantsData, title }) => {
               <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
                 <div className="p-6">
                   <h4 className="text-xl font-semibold mb-2">{participant.name}</h4>
-                  <p className="text-gray-600">{participant.description}</p>
+                  <ReactMarkdown>{participant.description}</ReactMarkdown>
                 </div>
               </div>
             ))}

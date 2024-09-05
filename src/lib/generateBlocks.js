@@ -5,10 +5,14 @@ import { n2m } from './notionClient.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const CONTENT_PATH = path.join(__dirname, "../../public/conteudo/");
+const CONTENT_PATH = path.join(__dirname, "../../public/content/");
 const JSON_PATH = path.join(__dirname, "../../public/");
 
-export async function generateCronograma(data) {
+// Ensure directories exist
+fs.mkdirSync(CONTENT_PATH, { recursive: true });
+fs.mkdirSync(JSON_PATH, { recursive: true });
+
+export async function generateBlocks(data) {
   const blocks = [];
 
   for (const page of data) {
