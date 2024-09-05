@@ -149,9 +149,10 @@ const Index = () => {
       behavior: 'smooth'
     });
   }
-
-  const cronogramaTitle = markdownContents['Cronograma']?.split('\n').find(line => line.startsWith('#'))?.replace(/^#+\s*/, '').trim();
-  const cronogramaItems = markdownContents['Cronograma']?.split('\n\n**').slice(1).map(item => `**${item}`);
+  console.log('META', metaData)
+  console.log('CONTENT', markdownContents)
+  const cronogramaTitle = markdownContents['Event Schedule']?.split('\n').find(line => line.startsWith('#'))?.replace(/^#+\s*/, '').trim();
+  const cronogramaItems = markdownContents['Event Schedule']?.split('\n\n**').slice(1).map(item => `**${item}`);
 
   return (
     <div className="min-h-screen bg-[#FFF5E1] text-[#1E3D59]">
@@ -180,11 +181,11 @@ const Index = () => {
             <Chronogram title={cronogramaTitle} cronogramaItems={cronogramaItems} />
           </div>
         )}
-        {markdownContents['Participantes'] && (
+        {markdownContents['Participants'] && (
           <div id="participants" ref={sectionRefs.participants}>
             <Participants 
-              participantsData={markdownContents['Participantes'].split('\n## ').slice(1)} 
-              title={markdownContents['Participantes'].split('\n')[0].replace('# ', '')}
+              participantsData={markdownContents['Participants'].split('\n### ').slice(1)}
+              title={markdownContents['Participants'].split('\n')[1].replace('## ', '')}
             />
           </div>
         )}
