@@ -4,17 +4,32 @@ import ReactMarkdown from 'react-markdown';
 import { CalendarIcon, MapPinIcon, UsersIcon } from 'lucide-react';
 
 const Info = ({ content }) => {
+  console.log('Info component - content:', content);
+
   const sections = content ? content.split('### ').slice(1) : [];
+  console.log('Info component - sections:', sections);
+
   const localSection = sections.find(section => section.startsWith('Local'));
   const dataSection = sections.find(section => section.startsWith('Data'));
   const organizationSection = sections.find(section => section.startsWith('Organization'));
+
+  console.log('Info component - localSection:', localSection);
+  console.log('Info component - dataSection:', dataSection);
+  console.log('Info component - organizationSection:', organizationSection);
 
   const localContent = localSection?.split('\n').slice(1).join('\n').trim();
   const dataContent = dataSection?.split('\n').slice(1).join('\n').trim();
   const organizationContent = organizationSection?.split('\n').slice(1).join('\n').trim();
 
+  console.log('Info component - localContent:', localContent);
+  console.log('Info component - dataContent:', dataContent);
+  console.log('Info component - organizationContent:', organizationContent);
+
   const localImage = localContent?.match(/!\[.*?\]\((.*?)\)/)?.[1];
   const localText = localContent?.replace(/!\[.*?\]\(.*?\)/, '').trim();
+
+  console.log('Info component - localImage:', localImage);
+  console.log('Info component - localText:', localText);
 
   return (
     <section id="informacoes" className="mb-20">
