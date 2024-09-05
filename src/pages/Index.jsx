@@ -154,6 +154,7 @@ const Index = () => {
     });
   }
 
+  const cronogramaTitle = cronogramaMarkdown.split('\n')[0].replace('# ', '').replace('**', '');
   const cronogramaItems = cronogramaMarkdown.split('\n## ').slice(1);
   return (
     <div className="min-h-screen bg-[#FFF5E1] text-[#1E3D59]">
@@ -176,7 +177,7 @@ const Index = () => {
           />
         </div>
         <div id="cronograma" ref={sectionRefs.cronograma}>
-          <Chronogram cronogramaItems={cronogramaItems} />
+          <Chronogram title={cronogramaTitle} cronogramaItems={cronogramaItems} />
         </div>
         <div id="participants" ref={sectionRefs.participants}>
           <Participants 
