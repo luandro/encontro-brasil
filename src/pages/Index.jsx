@@ -14,6 +14,11 @@ const fetchMarkdownContent = async (file) => {
   return response.text();
 };
 
+const fetchNotionBlocks = async () => {
+  const response = await fetch('/notionBlocks.json');
+  return response.json();
+};
+
 const extractMetaData = (text) => {
   const metaRegex = /^---\n([\s\S]*?)\n---/;
   const match = text.match(metaRegex);
@@ -46,13 +51,8 @@ const extractGalleryItems = (markdown) => {
 };
 
 const Index = () => {
-  const [eventoInfoMarkdown, setEventoInfoMarkdown] = useState("");
-  const [eventoInfoMetaData, setEventoInfoMetaData] = useState({});
-  const [cronogramaMarkdown, setCronogramaMarkdown] = useState("");
-  const [cronogramaMetaData, setCronogramaMetaData] = useState({});
-  const [participantsMarkdown, setParticipantsMarkdown] = useState("");
-  const [pastEditionsMarkdown, setPastEditionsMarkdown] = useState("");
-  const [pastEditionsMetaData, setPastEditionsMetaData] = useState({});
+  const [markdownContents, setMarkdownContents] = useState({});
+  const [metaData, setMetaData] = useState({});
   const [activeSection, setActiveSection] = useState('');
 
   const sectionRefs = {
@@ -62,57 +62,43 @@ const Index = () => {
     'edicoes-anteriores': useRef(null),
   };
 
-  const { data: eventoInfo, isLoading: isLoadingEventoInfo } = useQuery({
-    queryKey: ['eventoInfo'],
-    queryFn: () => fetchMarkdownContent('/conteudo/evento-info.md'),
+  const { data: notionBlocks, isLoading: isLoadingNotionBlocks } = useQuery({
+    queryKey: ['notionBlocks'],
+    queryFn: fetchNotionBlocks,
   });
 
-  const { data: cronograma, isLoading: isLoadingCronograma } = useQuery({
-    queryKey: ['cronograma'],
-    queryFn: () => fetchMarkdownContent('/conteudo/cronograma.md'),
-  });
-
-  const { data: participants, isLoading: isLoadingParticipants } = useQuery({
-    queryKey: ['participants'],
-    queryFn: () => fetchMarkdownContent('/conteudo/participantes.md'),
-  });
-
-  const { data: pastEditions, isLoading: isLoadingPastEditions } = useQuery({
-    queryKey: ['pastEditions'],
-    queryFn: () => fetchMarkdownContent('/conteudo/edicoes-anteriores.md'),
+  const { data: markdownData, isLoading: isLoadingMarkdown } = useQuery({
+    queryKey: ['markdownData', notionBlocks],
+    queryFn: async () => {
+      if (!notionBlocks) return null;
+      const contents = {};
+      for (const block of notionBlocks) {
+        contents[block.name] = await fetchMarkdownContent(`/conteudo/${block.fileName}`);
+      }
+      return contents;
+    },
+    enabled: !!notionBlocks,
   });
   useEffect(() => {
-    if (eventoInfo) {
-      const [rawMeta, metaData] = extractMetaData(eventoInfo);
-      setEventoInfoMetaData(metaData);
-      setEventoInfoMarkdown(eventoInfo.replace(rawMeta, ""));
+    if (markdownData) {
+      const newMetaData = {};
+      const newMarkdownContents = {};
+      
+      for (const [key, content] of Object.entries(markdownData)) {
+        const [rawMeta, metaData] = extractMetaData(content);
+        newMetaData[key] = metaData;
+        newMarkdownContents[key] = content.replace(rawMeta, "").trim();
+        
+        if (key === 'Edições Anteriores') {
+          const galleryItems = extractGalleryItems(newMarkdownContents[key]);
+          newMetaData[key] = { ...newMetaData[key], gallery: galleryItems };
+        }
+      }
+      
+      setMetaData(newMetaData);
+      setMarkdownContents(newMarkdownContents);
     }
-  }, [eventoInfo]);
-
-  useEffect(() => {
-    if (cronograma) {
-      const [rawMeta, metaData] = extractMetaData(cronograma);
-      setCronogramaMetaData(metaData);
-      setCronogramaMarkdown(cronograma.replace(rawMeta, ""));
-    }
-  }, [cronograma]);
-
-  useEffect(() => {
-    if (participants) {
-      setParticipantsMarkdown(participants);
-    }
-  }, [participants]);
-
-  useEffect(() => {
-    if (pastEditions) {
-      const [rawMeta, metaData] = extractMetaData(pastEditions);
-      setPastEditionsMetaData(metaData);
-      const contentWithoutMeta = pastEditions.replace(rawMeta, "").trim();
-      setPastEditionsMarkdown(contentWithoutMeta);
-      const galleryItems = extractGalleryItems(contentWithoutMeta);
-      setPastEditionsMetaData(prevState => ({...prevState, gallery: galleryItems}));
-    }
-  }, [pastEditions]);
+  }, [markdownData]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -142,7 +128,8 @@ const Index = () => {
       });
     };
   }, [sectionRefs]);
-  if (isLoadingEventoInfo || isLoadingCronograma || isLoadingParticipants || isLoadingPastEditions) {
+
+  if (isLoadingNotionBlocks || isLoadingMarkdown) {
     return <div className="flex justify-center items-center h-screen bg-[#FFF5E1]">
       <Loader />
     </div>;
@@ -154,32 +141,27 @@ const Index = () => {
     });
   }
 
-  // const cronogramaTitle = cronogramaMarkdown.split('\n')[0].replace(/^## \*\*|\*\*$/g, '');
-  const cronogramaTitle = cronogramaMarkdown.split('\n').find(line => line.startsWith('#'))?.replace(/^#+\s*/, '').trim();
-  const cronogramaItems = cronogramaMarkdown.split('\n\n**').slice(1).map(item => `**${item}`);
-  // console.log('Evento Info Meta Data:', eventoInfoMetaData);
-  // console.log('Participants Markdown:', participantsMarkdown);
-  // console.log('Past Editions Meta Data:', pastEditionsMetaData);
-  // console.log('Past Editions Markdown:', pastEditionsMarkdown);
-  // console.log('Active Section:', activeSection);
+  const cronogramaTitle = markdownContents['Cronograma']?.split('\n').find(line => line.startsWith('#'))?.replace(/^#+\s*/, '').trim();
+  const cronogramaItems = markdownContents['Cronograma']?.split('\n\n**').slice(1).map(item => `**${item}`);
+
   return (
     <div className="min-h-screen bg-[#FFF5E1] text-[#1E3D59]">
       <NavBar onSmoothScroll={smoothScroll} activeSection={activeSection} />
 
       <main className="pt-40 container mx-auto px-4 py-12">
         <Hero
-          title={eventoInfoMetaData.title}
-          title2={eventoInfoMetaData.title_2}
-          subTitle={eventoInfoMetaData.subTitle}
-          subTitle2={eventoInfoMetaData.subTitle2}
+          title={metaData['Evento Info']?.title}
+          title2={metaData['Evento Info']?.title_2}
+          subTitle={metaData['Evento Info']?.subTitle}
+          subTitle2={metaData['Evento Info']?.subTitle2}
           onSmoothScroll={smoothScroll}
         />
         <div id="informacoes" ref={sectionRefs.informacoes}>
           <Info
-            data={eventoInfoMetaData.data}
-            local={eventoInfoMetaData.local}
-            localMedia={eventoInfoMetaData.localMedia}
-            markdown={eventoInfoMarkdown}
+            data={metaData['Evento Info']?.data}
+            local={metaData['Evento Info']?.local}
+            localMedia={metaData['Evento Info']?.localMedia}
+            markdown={markdownContents['Evento Info']}
           />
         </div>
         <div id="cronograma" ref={sectionRefs.cronograma}>
@@ -187,14 +169,14 @@ const Index = () => {
         </div>
         <div id="participants" ref={sectionRefs.participants}>
           <Participants 
-            participantsData={participantsMarkdown.split('\n## ').slice(1)} 
-            title={participantsMarkdown.split('\n')[0].replace('# ', '')}
+            participantsData={markdownContents['Participantes']?.split('\n## ').slice(1)} 
+            title={markdownContents['Participantes']?.split('\n')[0].replace('# ', '')}
           />
         </div>
         <div id="edicoes-anteriores" ref={sectionRefs['edicoes-anteriores']}>
           <PastEditions
-            markdown={pastEditionsMarkdown}
-            metaData={pastEditionsMetaData}
+            markdown={markdownContents['Edições Anteriores']}
+            metaData={metaData['Edições Anteriores']}
           />
         </div>
       </main>

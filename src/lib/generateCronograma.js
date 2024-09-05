@@ -6,8 +6,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const CONTENT_PATH = path.join(__dirname, "../../public/conteudo/");
+const JSON_PATH = path.join(__dirname, "../../public/");
 
 export async function generateCronograma(data) {
+  const blocks = [];
+
   for (const page of data) {
     const markdown = await n2m.pageToMarkdown(page.id);
     const markdownString = n2m.toMarkdownString(markdown);
@@ -20,6 +23,11 @@ export async function generateCronograma(data) {
         const filePath = path.join(CONTENT_PATH, fileName);
         fs.writeFileSync(filePath, markdownString.parent, 'utf8');
         console.log(`${fileName} has been generated successfully.`);
+        
+        blocks.push({
+          name: websiteBlock,
+          fileName: fileName
+        });
       } else {
         console.error("No 'Website Block' property found for page:", page.id);
       }
@@ -27,4 +35,9 @@ export async function generateCronograma(data) {
       console.error("Unexpected markdown structure for page:", page.id);
     }
   }
+
+  // Generate JSON file
+  const jsonFilePath = path.join(JSON_PATH, "notionBlocks.json");
+  fs.writeFileSync(jsonFilePath, JSON.stringify(blocks, null, 2), 'utf8');
+  console.log("notionBlocks.json has been generated successfully.");
 }
