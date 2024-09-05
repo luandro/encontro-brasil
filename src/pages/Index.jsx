@@ -16,7 +16,7 @@ const Index = () => {
     informacoes: useRef(null),
     schedule: useRef(null),
     participants: useRef(null),
-    'edicoes-anteriores': useRef(null),
+    'gallery': useRef(null),
   };
 
   const { data: notionBlocks, isLoading: isLoadingNotionBlocks } = useNotionBlocks();
@@ -64,11 +64,11 @@ const Index = () => {
             />
           </div>
         )}
-        {markdownContents['Edições Anteriores'] && metaData['Edições Anteriores'] && (
-          <div id="edicoes-anteriores" ref={sectionRefs['edicoes-anteriores']}>
+        {markdownContents['Gallery'] && metaData['Gallery'] && (
+          <div id="gallery" ref={sectionRefs['gallery']}>
             <MediaGallery
-              markdown={markdownContents['Edições Anteriores']}
-              metaData={metaData['Edições Anteriores']}
+              markdown={markdownContents['Gallery']}
+              metaData={metaData['Gallery']}
             />
           </div>
         )}
