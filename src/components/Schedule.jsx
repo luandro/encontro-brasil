@@ -2,12 +2,12 @@ import React from 'react';
 import { motion } from "framer-motion";
 import ReactMarkdown from 'react-markdown';
 
-const Chronogram = ({ title, cronogramaItems }) => {
+const Chronogram = ({ title, scheduleItems }) => {
   return (
     <section className="mb-20">
-      <h2 id="cronograma" className="text-5xl font-bold mb-12 text-center text-[#FF6E40]">{title}</h2>
+      <h2 id="schedule" className="text-5xl font-bold mb-12 text-center text-[#FF6E40]">{title}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {cronogramaItems.map((day, index) => {
+        {scheduleItems.map((day, index) => {
           const [title, ...content] = day.split('\n');
           const contentString = content.join('\n')
           return (

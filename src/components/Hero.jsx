@@ -30,9 +30,9 @@ const Hero = ({ content, onSmoothScroll }) => {
       <div className="flex justify-center">
         <Button
           className="bg-[#FF6E40] text-[#FFF5E1] hover:bg-[#1E3D59] text-xl py-3 px-8"
-          onClick={() => onSmoothScroll('cronograma')}
+          onClick={() => onSmoothScroll('schedule')}
         >
-          Cronograma
+          Schedule
         </Button>
       </div>
     </section>
