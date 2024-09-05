@@ -2,14 +2,7 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from 'react-markdown';
 
-const Hero = ({ content, onSmoothScroll }) => {
-  const lines = content.split('\n');
-  const title = lines[0].replace('# ', '');
-  const title2 = lines[2].replace('## ', '');
-  const subTitle = lines[4].replace('## ', '');
-
-  const logoRegex = /!\[(.*?)\]\((.*?)\)/g;
-  const logos = [...content.matchAll(logoRegex)].slice(0, 4);
+const Hero = ({ title, title2, subTitle, logos, onSmoothScroll }) => {
 
   return (
     <section className="mb-20">

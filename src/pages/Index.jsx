@@ -42,7 +42,7 @@ const Index = () => {
           title={metaData['Evento Info']?.title}
           title2={metaData['Evento Info']?.title_2}
           subTitle={metaData['Evento Info']?.subTitle}
-          subTitle2={metaData['Evento Info']?.subTitle2}
+          logos={metaData['Evento Info']?.logos || []}
           onSmoothScroll={smoothScroll}
         />
         {metaData['Evento Info'] && markdownContents['Evento Info'] && (
