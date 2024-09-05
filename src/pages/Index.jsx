@@ -16,7 +16,7 @@ const Index = () => {
     informacoes: useRef(null),
     schedule: useRef(null),
     participants: useRef(null),
-    'gallery': useRef(null),
+    gallery: useRef(null),
   };
 
   const { data: notionBlocks, isLoading: isLoadingNotionBlocks } = useNotionBlocks();

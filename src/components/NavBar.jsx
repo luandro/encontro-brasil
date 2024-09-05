@@ -12,7 +12,7 @@ const NavBar = ({ onSmoothScroll, activeSection }) => {
     { label: 'Informações', target: 'informacoes' },
     { label: 'Programação', target: 'schedule' },
     { label: 'Participantes', target: 'participants' },
-    { label: 'Edições Anteriores', target: 'edicoes-anteriores' },
+    { label: 'Gallery', target: 'gallery' },
   ];
 
   return (

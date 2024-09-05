@@ -14,7 +14,7 @@ async function main() {
   }
   try {
 	const tag = process.env.WEBSITE_TAG;
-    const data = await fetchNotionData(tag);    
+    const data = await fetchNotionData(tag);
     await generateBlocks(data);
     // updateJson(data);
   } catch (error) {
