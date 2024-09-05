@@ -33,12 +33,17 @@ export const extractGalleryItems = (markdown) => {
   const sections = markdown.split('\n## ').slice(1);
   return sections.map(section => {
     const [title, ...content] = section.split('\n');
-    const items = content.join('\n').split('\n### ').map(item => {
+    const items = content.join('\n').split('\n### ').slice(1).map(item => {
       const [subtitle, ...details] = item.split('\n');
+      const mediaContent = details.join('\n').trim();
+      const imageMatch = mediaContent.match(/!\[.*?\]\((.*?)\)/);
+      const videoMatch = mediaContent.match(/\[Video\]\((.*?)\)/);
       return {
         type: 'item',
         title: subtitle.trim(),
-        content: details.join('\n').trim()
+        content: mediaContent,
+        image: imageMatch ? imageMatch[1] : null,
+        video: videoMatch ? videoMatch[1] : null
       };
     });
     return {
