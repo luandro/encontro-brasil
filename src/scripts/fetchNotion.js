@@ -1,8 +1,12 @@
-const { Client } = require("@notionhq/client");
-const { NotionToMarkdown } = require("notion-to-md");
-const marked = require("marked");
-const fs = require("node:fs");
-const path = require("node:path");
+import { Client } from "@notionhq/client";
+import { NotionToMarkdown } from "notion-to-md";
+import { marked } from "marked";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Initialize the Notion client
 if (!process.env.NOTION_API_KEY) {
@@ -25,7 +29,32 @@ const DATABASE_ID = process.env.DATABASE_ID;
 const jsonFileName = "translation.en.json";
 const EN_JSON_PATH = path.join(__dirname, "../src/assets/i18n", jsonFileName);
 
+// Path to the cronograma.md file
+const CRONOGRAMA_PATH = path.join(__dirname, "../../public/conteudo/cronograma.md");
+
 // Function to fetch data from the Notion database
+async function fetchNotionData() {
+  const response = await notion.databases.query({
+    database_id: DATABASE_ID,
+  });
+  return response.results;
+}
+
+// Function to generate cronograma.md
+async function generateCronograma(data) {
+  let content = "# Cronograma do Evento\n\n";
+  
+  for (const page of data) {
+    const title = page.properties.Name.title[0]?.plain_text;
+    const markdown = await n2m.pageToMarkdown(page.id);
+    const markdownString = n2m.toMarkdownString(markdown);
+    
+    content += `## ${title}\n${markdownString}\n\n`;
+  }
+  
+  fs.writeFileSync(CRONOGRAMA_PATH, content, 'utf8');
+  console.log("cronograma.md has been generated successfully.");
+}
 
 // Function to update en.json
 function updateEnJson(data) {
@@ -74,10 +103,11 @@ console.log("en.json has been updated successfully.");
 // Main function
 async function main() {
 	try {
-		const data = await n2m.pageToMarkdown(DATABASE_ID);
+		const data = await fetchNotionData();
+		await generateCronograma(data);
 		updateEnJson(data);
 	} catch (error) {
-		console.error("Error updating en.json:", error);
+		console.error("Error updating files:", error);
 	}
 }
 
