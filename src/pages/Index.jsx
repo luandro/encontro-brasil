@@ -156,29 +156,37 @@ const Index = () => {
           subTitle2={metaData['Evento Info']?.subTitle2}
           onSmoothScroll={smoothScroll}
         />
-        <div id="informacoes" ref={sectionRefs.informacoes}>
-          <Info
-            data={metaData['Evento Info']?.data}
-            local={metaData['Evento Info']?.local}
-            localMedia={metaData['Evento Info']?.localMedia}
-            markdown={markdownContents['Evento Info']}
-          />
-        </div>
-        <div id="cronograma" ref={sectionRefs.cronograma}>
-          <Chronogram title={cronogramaTitle} cronogramaItems={cronogramaItems} />
-        </div>
-        <div id="participants" ref={sectionRefs.participants}>
-          <Participants 
-            participantsData={markdownContents['Participantes']?.split('\n## ').slice(1)} 
-            title={markdownContents['Participantes']?.split('\n')[0].replace('# ', '')}
-          />
-        </div>
-        <div id="edicoes-anteriores" ref={sectionRefs['edicoes-anteriores']}>
-          <PastEditions
-            markdown={markdownContents['Edições Anteriores']}
-            metaData={metaData['Edições Anteriores']}
-          />
-        </div>
+        {metaData['Evento Info'] && markdownContents['Evento Info'] && (
+          <div id="informacoes" ref={sectionRefs.informacoes}>
+            <Info
+              data={metaData['Evento Info'].data}
+              local={metaData['Evento Info'].local}
+              localMedia={metaData['Evento Info'].localMedia}
+              markdown={markdownContents['Evento Info']}
+            />
+          </div>
+        )}
+        {cronogramaTitle && cronogramaItems && (
+          <div id="cronograma" ref={sectionRefs.cronograma}>
+            <Chronogram title={cronogramaTitle} cronogramaItems={cronogramaItems} />
+          </div>
+        )}
+        {markdownContents['Participantes'] && (
+          <div id="participants" ref={sectionRefs.participants}>
+            <Participants 
+              participantsData={markdownContents['Participantes'].split('\n## ').slice(1)} 
+              title={markdownContents['Participantes'].split('\n')[0].replace('# ', '')}
+            />
+          </div>
+        )}
+        {markdownContents['Edições Anteriores'] && metaData['Edições Anteriores'] && (
+          <div id="edicoes-anteriores" ref={sectionRefs['edicoes-anteriores']}>
+            <PastEditions
+              markdown={markdownContents['Edições Anteriores']}
+              metaData={metaData['Edições Anteriores']}
+            />
+          </div>
+        )}
       </main>
 
       <Footer />
