@@ -67,7 +67,7 @@ export const extractEventInformation = (markdown) => {
       } else if (!eventInfo.subTitle) {
         eventInfo.subTitle = line.replace('## ', '').trim();
       }
-    } else if (line.startsWith('![')) {
+    } else if (line.startsWith('![') && eventInfo.logos.length < 4) {
       const match = line.match(/!\[(.+?)\]\((.+?)\)/);
       if (match) {
         eventInfo.logos.push([match[1], match[1], match[2]]);
