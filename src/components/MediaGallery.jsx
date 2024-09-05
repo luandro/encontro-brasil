@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Dialog } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
@@ -69,28 +69,28 @@ const MediaGallery = ({ markdown, metaData }) => {
       </div>
 
       <Dialog open={!!currentItem} onOpenChange={closeDialog}>
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold">{currentItem?.title}</h3>
-                <Button variant="ghost" onClick={closeDialog}><X /></Button>
-              </div>
-              <div className="aspect-w-16 aspect-h-9 mb-4">
-                {currentItem?.image ? (
-                  <img src={currentItem.image} alt={currentItem.title} className="object-contain w-full h-full" />
-                ) : currentItem?.video ? (
-                  <iframe src={currentItem.video} title={currentItem.title} className="w-full h-full" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                ) : null}
-              </div>
-              <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: currentItem?.content }}></div>
+        <DialogContent className="max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-2xl font-bold">{currentItem?.title}</h3>
+              <DialogClose asChild>
+                <Button variant="ghost"><X /></Button>
+              </DialogClose>
             </div>
-            <div className="flex justify-between p-4 bg-gray-100">
-              <Button onClick={() => navigateGallery('prev')} variant="outline"><ChevronLeft className="mr-2" /> Anterior</Button>
-              <Button onClick={() => navigateGallery('next')} variant="outline">Próximo <ChevronRight className="ml-2" /></Button>
+            <div className="aspect-w-16 aspect-h-9 mb-4">
+              {currentItem?.image ? (
+                <img src={currentItem.image} alt={currentItem.title} className="object-contain w-full h-full" />
+              ) : currentItem?.video ? (
+                <iframe src={currentItem.video} title={currentItem.title} className="w-full h-full" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+              ) : null}
             </div>
+            <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: currentItem?.content }}></div>
           </div>
-        </div>
+          <div className="flex justify-between p-4 bg-gray-100">
+            <Button onClick={() => navigateGallery('prev')} variant="outline"><ChevronLeft className="mr-2" /> Anterior</Button>
+            <Button onClick={() => navigateGallery('next')} variant="outline">Próximo <ChevronRight className="ml-2" /></Button>
+          </div>
+        </DialogContent>
       </Dialog>
     </section>
   );
