@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Dialog } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
@@ -6,20 +6,32 @@ import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 const MediaGallery = ({ markdown, metaData }) => {
   const galleryItems = metaData?.gallery || [];
   const [currentItem, setCurrentItem] = useState(null);
+  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+  const [currentItemIndex, setCurrentItemIndex] = useState(0);
 
-  const openDialog = (item) => setCurrentItem(item);
-  const closeDialog = () => setCurrentItem(null);
+  const openDialog = useCallback((item, sectionIndex, itemIndex) => {
+    setCurrentItem(item);
+    setCurrentSectionIndex(sectionIndex);
+    setCurrentItemIndex(itemIndex);
+  }, []);
 
-  const navigateGallery = (direction) => {
-    const currentSection = galleryItems.find(section => 
-      section.items.some(item => item === currentItem)
-    );
-    const currentIndex = currentSection.items.indexOf(currentItem);
-    const newIndex = direction === 'next' 
-      ? (currentIndex + 1) % currentSection.items.length 
-      : (currentIndex - 1 + currentSection.items.length) % currentSection.items.length;
-    setCurrentItem(currentSection.items[newIndex]);
-  };
+  const closeDialog = useCallback(() => {
+    setCurrentItem(null);
+    setCurrentSectionIndex(0);
+    setCurrentItemIndex(0);
+  }, []);
+
+  const navigateGallery = useCallback((direction) => {
+    const currentSection = galleryItems[currentSectionIndex];
+    if (!currentSection) return;
+
+    let newItemIndex = direction === 'next'
+      ? (currentItemIndex + 1) % currentSection.items.length
+      : (currentItemIndex - 1 + currentSection.items.length) % currentSection.items.length;
+
+    setCurrentItemIndex(newItemIndex);
+    setCurrentItem(currentSection.items[newItemIndex]);
+  }, [currentSectionIndex, currentItemIndex, galleryItems]);
 
   return (
     <section id="gallery" className="py-16 bg-[#F5E6D3]">
@@ -36,14 +48,14 @@ const MediaGallery = ({ markdown, metaData }) => {
                     <div key={itemIndex} className="bg-gray-100 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
                       <div className="aspect-w-16 aspect-h-9">
                         {item.image ? (
-                          <img src={item.image} alt={item.title} className="object-cover w-full h-full cursor-pointer" onClick={() => openDialog(item)} />
+                          <img src={item.image} alt={item.title} className="object-cover w-full h-full cursor-pointer" onClick={() => openDialog(item, sectionIndex, itemIndex)} />
                         ) : item.video ? (
                           <iframe src={item.video} title={item.title} className="w-full h-full" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                         ) : null}
                       </div>
                       <div className="p-4">
                         <h4 className="text-xl font-semibold mb-2">{item.title}</h4>
-                        <Button onClick={() => openDialog(item)} variant="outline" className="mt-2">Ver mais</Button>
+                        <Button onClick={() => openDialog(item, sectionIndex, itemIndex)} variant="outline" className="mt-2">Ver mais</Button>
                       </div>
                     </div>
                   ))}
