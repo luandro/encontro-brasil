@@ -1,4 +1,7 @@
 import React, { useRef } from 'react';
+import { useNotionBlocks, useMarkdownData } from '@/lib/api';
+import { useMarkdownProcessor, useActiveSection } from '@/lib/hooks';
+import { smoothScroll } from '@/lib/utils';
 import Loader from '@/components/Loader';
 import NavBar from '@/components/NavBar';
 import Hero from '@/components/Hero';
@@ -7,9 +10,6 @@ import Schedule from '@/components/Schedule';
 import Participants from '@/components/Participants';
 import PastEditions from '@/components/PastEditions';
 import Footer from '@/components/Footer';
-import { useNotionBlocks, useMarkdownData } from '@/lib/api';
-import { useMarkdownProcessor, useActiveSection } from '@/lib/hooks';
-import { smoothScroll } from '@/lib/utils';
 
 const Index = () => {
   const sectionRefs = {
@@ -32,26 +32,26 @@ const Index = () => {
 
   const scheduleTitle = markdownContents['Event Schedule']?.split('\n').find(line => line.startsWith('#'))?.replace(/^#+\s*/, '').trim();
   const scheduleItems = markdownContents['Event Schedule']?.split('\n\n**').slice(1).map(item => `**${item}`);
-
+  console.log('meta', metaData['Event Information']);
   return (
     <div className="min-h-screen bg-[#FFF5E1] text-[#1E3D59]">
       <NavBar onSmoothScroll={smoothScroll} activeSection={activeSection} />
 
       <main className="pt-40 container mx-auto px-4 py-12">
         <Hero
-          title={metaData['Evento Info']?.title}
-          title2={metaData['Evento Info']?.title_2}
-          subTitle={metaData['Evento Info']?.subTitle}
-          logos={metaData['Evento Info']?.logos || []}
+          title={metaData['Event Information']?.title}
+          title2={metaData['Event Information']?.title_2}
+          subTitle={metaData['Event Information']?.subTitle}
+          logos={metaData['Event Information']?.logos || []}
           onSmoothScroll={smoothScroll}
         />
-        {metaData['Evento Info'] && markdownContents['Evento Info'] && (
+        {metaData['Event Information'] && markdownContents['Event Information'] && (
           <div id="informacoes" ref={sectionRefs.informacoes}>
             <Info
-              data={metaData['Evento Info'].data}
-              local={metaData['Evento Info'].local}
-              localMedia={metaData['Evento Info'].localMedia}
-              markdown={markdownContents['Evento Info']}
+              data={metaData['Event Information'].data}
+              local={metaData['Event Information'].local}
+              localMedia={metaData['Event Information'].localMedia}
+              markdown={markdownContents['Event Information']}
             />
           </div>
         )}
