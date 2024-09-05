@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from "framer-motion";
 import ReactMarkdown from 'react-markdown';
 import { CalendarIcon, MapPinIcon, UsersIcon } from 'lucide-react';
+import { Textfit } from 'react-textfit';
 
 const Info = ({ content }) => {
   const sections = content ? content.split('### ').slice(1) : [];
@@ -32,12 +33,16 @@ const Info = ({ content }) => {
             <h3 className="mb-8 text-2xl font-semibold text-[#1E3D59]">Data</h3>
             <div className="flex flex-col items-stretch justify-start h-full">
               {dateContent.split('de').map((line, index, array) => (
-                <div key={index} className="mb-4 last:mb-0 w-full">
-                  <div className="bg-[#1E3D59] text-[#FFC13B] py-2 px-4 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300 uppercase font-semibold table table-fixed w-full">
-                    <span className="table-cell text-center">
-                      {index === array.length - 1 ? 'de ' + line : line}
-                    </span>
-                  </div>
+                <div key={index} className="mb-4 last:mb-0 w-full h-1/3">
+                  <Textfit
+                    mode="single"
+                    forceSingleModeWidth={false}
+                    min={12}
+                    max={32}
+                    className="w-full h-full text-[#1E3D59] uppercase font-semibold"
+                  >
+                    {index === array.length - 1 ? 'de ' + line.trim() : line.trim()}
+                  </Textfit>
                 </div>
               ))}
             </div>
