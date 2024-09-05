@@ -9,6 +9,7 @@ const Chronogram = ({ title, cronogramaItems }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {cronogramaItems.map((day, index) => {
           const [title, ...content] = day.split('\n');
+          const contentString = content.join('\n')
           return (
             <motion.div
               key={index}
@@ -18,11 +19,13 @@ const Chronogram = ({ title, cronogramaItems }) => {
               className="bg-[#FFC13B] rounded-lg overflow-hidden shadow-lg"
             >
               <div className="bg-[#FF6E40] p-4">
-                <h3 className="text-2xl font-bold text-[#FFF5E1]">{title}</h3>
+              <ReactMarkdown className="text-2xl font-bold text-[#FFF5E1]">
+                  {title}
+                </ReactMarkdown>
               </div>
               <div className="p-6">
                 <ReactMarkdown className="prose prose-lg max-w-none text-[#1E3D59]">
-                  {content.join('\n')}
+                  {contentString  }
                 </ReactMarkdown>
               </div>
             </motion.div>

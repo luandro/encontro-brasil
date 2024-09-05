@@ -154,8 +154,14 @@ const Index = () => {
     });
   }
 
-  const cronogramaTitle = cronogramaMarkdown.split('\n')[0].replace('# ', '').replace('**', '');
-  const cronogramaItems = cronogramaMarkdown.split('\n## ').slice(1);
+  // const cronogramaTitle = cronogramaMarkdown.split('\n')[0].replace(/^## \*\*|\*\*$/g, '');
+  const [cronogramaTitle, ...cronogramaItems] = cronogramaMarkdown.split('\n\n**');
+  // console.log('Evento Info Meta Data:', eventoInfoMetaData);
+  console.log('Cronograma Markdown:', cronogramaTitle, cronogramaItems);
+  // console.log('Participants Markdown:', participantsMarkdown);
+  // console.log('Past Editions Meta Data:', pastEditionsMetaData);
+  // console.log('Past Editions Markdown:', pastEditionsMarkdown);
+  // console.log('Active Section:', activeSection);
   return (
     <div className="min-h-screen bg-[#FFF5E1] text-[#1E3D59]">
       <NavBar onSmoothScroll={smoothScroll} activeSection={activeSection} />
