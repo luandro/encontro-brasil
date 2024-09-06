@@ -24,12 +24,18 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Clear Bun cache
+        run: bun cache clean
+
       - name: Build the project
         env:
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           DATABASE_ID: ${{ secrets.DATABASE_ID }}
           WEBSITE_TAG: ${{ secrets.WEBSITE_TAG }}
-        run: bun run build
+        run: bun run build --no-cache
+
+      - name: List build directory contents
+        run: ls -R ./dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
