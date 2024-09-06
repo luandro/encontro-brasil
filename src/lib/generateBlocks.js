@@ -3,7 +3,8 @@ import path from "node:path";
 import { fileURLToPath } from 'url';
 import { n2m } from './notionClient.js';
 import axios from 'axios';
-import crypto from 'crypto';
+import { processImage } from './imageProcessor.js';
+import { compressImage } from './imageCompressor.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,10 +16,10 @@ const IMAGES_PATH = path.join(CONTENT_PATH, "images/");
 fs.mkdirSync(CONTENT_PATH, { recursive: true });
 fs.mkdirSync(IMAGES_PATH, { recursive: true });
 
-async function downloadImage(url, blockName, index) {
+async function downloadAndProcessImage(url, blockName, index) {
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
-    const buffer = Buffer.from(response.data, 'binary');
+    let buffer = Buffer.from(response.data, 'binary');
     
     // Remove query parameters from the URL
     const cleanUrl = url.split('?')[0];
@@ -31,11 +32,19 @@ async function downloadImage(url, blockName, index) {
     const filename = `${sanitizedBlockName}_${index}${extension}`;
     
     const filepath = path.join(IMAGES_PATH, filename);
+
+    // Process the image
+    buffer = await processImage(buffer, filepath);
+
+    // Compress the image
+    buffer = await compressImage(buffer, filepath);
+
+    // Save the processed and compressed image
     fs.writeFileSync(filepath, buffer);
-    console.log(`Image downloaded and saved: ${filepath}`);
+    console.log(`Image downloaded, processed, and saved: ${filepath}`);
     return `/content/images/${filename}`;
   } catch (error) {
-    console.error(`Error downloading image from ${url}:`, error);
+    console.error(`Error processing image from ${url}:`, error);
     return url;
   }
 }
@@ -46,7 +55,6 @@ export async function generateBlocks(data) {
   for (const page of data) {
     const markdown = await n2m.pageToMarkdown(page.id);
     let markdownString = n2m.toMarkdownString(markdown);
-    // console.log("Markdown content:", markdownString);
     
     if (markdownString && markdownString.parent) {
       const websiteBlock = page.properties["Website Block"]?.select?.name;
@@ -61,7 +69,7 @@ export async function generateBlocks(data) {
           if (!imgUrl.startsWith('http')) continue; // Skip local images
           const fullMatch = match[0];
           imgPromises.push(
-            downloadImage(imgUrl, websiteBlock, imgIndex).then(newPath => {
+            downloadAndProcessImage(imgUrl, websiteBlock, imgIndex).then(newPath => {
               const newImageMarkdown = fullMatch.replace(imgUrl, newPath);
               markdownString.parent = markdownString.parent.replace(fullMatch, newImageMarkdown);
             })
