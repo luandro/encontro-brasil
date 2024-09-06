@@ -116,16 +116,11 @@ const MediaGallery = ({ markdown, metaData }) => {
                 <ChevronRight className="h-6 w-6" />
               </Button>
             </div>
-            <div className="bg-[#F5E6D3] p-4 flex flex-col sm:flex-row justify-between items-center">
-              <h3 className="text-caption text-black mb-2 sm:mb-0">{currentItem?.title}</h3>
-              <div className="flex space-x-4">
-                <Button onClick={() => navigateGallery('prev')} variant="outline" className="bg-white text-black hover:bg-gray-100">
-                  <ChevronLeft className="mr-2" /> Anterior
-                </Button>
-                <Button onClick={() => navigateGallery('next')} variant="outline" className="bg-white text-black hover:bg-gray-100">
-                  Próximo <ChevronRight className="ml-2" />
-                </Button>
-              </div>
+            <div className="bg-[#F5E6D3] p-4">
+              <h3 className="text-caption text-black mb-2">{currentItem?.title}</h3>
+              {currentItem?.description && (
+                <p className="text-sm text-gray-600">{currentItem.description}</p>
+              )}
             </div>
           </div>
         </DialogContent>
