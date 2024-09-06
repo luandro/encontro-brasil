@@ -38,7 +38,7 @@ export async function generateBlocks(data) {
   for (const page of data) {
     const markdown = await n2m.pageToMarkdown(page.id);
     let markdownString = n2m.toMarkdownString(markdown);
-    console.log("Markdown content:", markdownString);
+    // console.log("Markdown content:", markdownString);
     
     if (markdownString && markdownString.parent) {
       const websiteBlock = page.properties["Website Block"]?.select?.name;
