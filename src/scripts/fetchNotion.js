@@ -11,20 +11,20 @@ dotenv.config();
 async function main() {
   console.log(chalk.bold.cyan('🚀 Starting Notion data fetch and processing\n'));
 
-  // Check if VITE_NOTION_API_KEY is defined
-  if (!process.env.VITE_NOTION_API_KEY) {
-    console.error(chalk.bold.red("Error: VITE_NOTION_API_KEY is not defined in the environment variables."));
+  // Check if NOTION_API_KEY is defined
+  if (!process.env.NOTION_API_KEY) {
+    console.error(chalk.bold.red("Error: NOTION_API_KEY is not defined in the environment variables."));
     process.exit(1);
   }
 
-  // Check if VITE_DATABASE_ID is defined
-  if (!process.env.VITE_DATABASE_ID) {
-    console.error(chalk.bold.red("Error: VITE_DATABASE_ID is not defined in the environment variables."));
+  // Check if DATABASE_ID is defined
+  if (!process.env.DATABASE_ID) {
+    console.error(chalk.bold.red("Error: DATABASE_ID is not defined in the environment variables."));
     process.exit(1);
   }
 
   try {
-    const tag = process.env.VITE_WEBSITE_TAG;
+    const tag = process.env.WEBSITE_TAG;
     
     const fetchSpinner = ora('Fetching data from Notion').start();
     const data = await fetchNotionData(tag);
