@@ -53,6 +53,6 @@ export function updateJson(data) {
   );
   fs.renameSync(EN_JSON_PATH, oldFileName);
 
-  fs.writeFileSync(EN_JSON_PATH, JSON.stringify(enJson, null, 2), "utf8");
+  iteFileSync(EN_JSON_PATH, JSON.stringify(enJson, null, 2), "utf8");
   console.log("en.json has been updated successfully.");
 }

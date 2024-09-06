@@ -22,7 +22,7 @@ async function downloadAndProcessImage(url, blockName, index) {
   const spinner = ora(`Processing image ${index + 1}`).start();
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
-    let buffer = Buffer.from(response.data, 'binary');
+    const buffer = Buffer.from(response.data, 'binary');
     
     // Remove query parameters from the URL
     const cleanUrl = url.split('?')[0];
@@ -66,7 +66,7 @@ export async function generateBlocks(data, progressCallback) {
 
     try {
       const markdown = await n2m.pageToMarkdown(page.id);
-      let markdownString = n2m.toMarkdownString(markdown);
+      const markdownString = n2m.toMarkdownString(markdown);
       
       if (markdownString && markdownString.parent) {
         const websiteBlock = page.properties["Website Block"]?.select?.name;

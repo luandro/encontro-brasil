@@ -33,7 +33,7 @@ async function main() {
     // updateJson(data);
 
     console.log(chalk.bold.green('\n✨ All tasks completed successfully!'));
-    console.log(chalk.bold.cyan(`Total kilobytes saved: ${(totalSaved / 1024).toFixed(2)} KB`));
+    console.log(chalk.bold.cyan(`A total of ${(totalSaved / 1024).toFixed(2)} KB was saved on image compression.`));
   } catch (error) {
     console.error(chalk.bold.red("\n❌ Error updating files:"), error);
   }
