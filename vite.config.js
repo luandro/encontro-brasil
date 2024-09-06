@@ -9,7 +9,7 @@ export default defineConfig({
     host: "::",
     port: "8080",
   },
-  base: process.env.GITHUB_ACTIONS ? process.env.BASE_URL : '/',
+  base: process.env.BASE_URL || '/',
   plugins: [react()],
   resolve: {
     alias: [
