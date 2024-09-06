@@ -7,14 +7,26 @@ export const fetchMarkdownContent = async (file) => {
 };
 
 export const fetchNotionBlocks = async () => {
-  const response = await fetch(`${baseUrl}content/notionBlocks.json`);
-  return response.json();
+  try {
+    const response = await fetch(`${baseUrl}content/notionBlocks.json`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch notionBlocks.json');
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Error fetching notionBlocks.json:', error);
+    return []; // Retorna um array vazio como fallback
+  }
 };
 
 export const useNotionBlocks = () => {
   return useQuery({
     queryKey: ['notionBlocks'],
     queryFn: fetchNotionBlocks,
+    retry: 1, // Tenta uma vez mais antes de falhar
+    onError: (error) => {
+      console.error('Error in useNotionBlocks:', error);
+    },
   });
 };
 

@@ -20,6 +20,9 @@ const IMAGES_PATH = path.join(CONTENT_PATH, "images/");
 fs.mkdirSync(CONTENT_PATH, { recursive: true });
 fs.mkdirSync(IMAGES_PATH, { recursive: true });
 
+console.log('Content directory:', CONTENT_PATH);
+console.log('Images directory:', IMAGES_PATH);
+
 const baseUrl = process.env.BASE_URL || '/';
 
 async function downloadAndProcessImage(url, blockName, index) {
@@ -123,7 +126,7 @@ export async function generateBlocks(data, progressCallback) {
   // Generate JSON file
   const jsonFilePath = path.join(CONTENT_PATH, "notionBlocks.json");
   fs.writeFileSync(jsonFilePath, JSON.stringify(blocks, null, 2), 'utf8');
-  console.log(chalk.green("\nnotionBlocks.json has been generated successfully."));
+  console.log(chalk.green(`\nnotionBlocks.json has been generated successfully at ${jsonFilePath}`));
 
   return { totalSaved };
 }
