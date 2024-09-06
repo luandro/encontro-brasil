@@ -22,6 +22,10 @@ jobs:
           bun-version: latest
 
       - name: Install dependencies
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          DATABASE_ID: ${{ secrets.DATABASE_ID }}
+          WEBSITE_TAG: ${{ secrets.WEBSITE_TAG }}
         run: bun install
 
       - name: Build the project
