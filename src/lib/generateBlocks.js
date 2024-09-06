@@ -20,10 +20,11 @@ async function downloadImage(url) {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
     const buffer = Buffer.from(response.data, 'binary');
     const hash = crypto.createHash('md5').update(buffer).digest('hex');
-    const extension = path.extname(url);
+    const extension = path.extname(url).toLowerCase() || '.jpg'; // Default to .jpg if no extension
     const filename = `${hash}${extension}`;
     const filepath = path.join(IMAGES_PATH, filename);
     fs.writeFileSync(filepath, buffer);
+    console.log(`Image downloaded and saved: ${filepath}`);
     return `/content/images/${filename}`;
   } catch (error) {
     console.error(`Error downloading image from ${url}:`, error);
@@ -48,9 +49,12 @@ export async function generateBlocks(data) {
         let match;
         while ((match = imgRegex.exec(markdownString.parent)) !== null) {
           const imgUrl = match[1];
+          if (!imgUrl.startsWith('http')) continue; // Skip local images
+          const fullMatch = match[0];
           imgPromises.push(
             downloadImage(imgUrl).then(newPath => {
-              markdownString.parent = markdownString.parent.replace(imgUrl, newPath);
+              const newImageMarkdown = fullMatch.replace(imgUrl, newPath);
+              markdownString.parent = markdownString.parent.replace(fullMatch, newImageMarkdown);
             })
           );
         }
