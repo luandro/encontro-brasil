@@ -36,7 +36,7 @@ const MediaGallery = ({ markdown, metaData }) => {
   return (
     <section id="gallery" className="py-16 bg-[#F5E6D3]">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold mb-8 text-center">{metaData.title}</h2>
+        <h2 className="text-4xl font-bold mb-8 text-center">{metaData.title || "Galeria"}</h2>
         
         {galleryItems.length > 0 ? (
           <div className="space-y-16">

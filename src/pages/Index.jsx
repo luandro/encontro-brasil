@@ -68,7 +68,10 @@ const Index = () => {
           <div id="gallery" ref={sectionRefs['gallery']}>
             <MediaGallery
               markdown={markdownContents['Gallery']}
-              metaData={metaData['Gallery']}
+              metaData={{
+                ...metaData['Gallery'],
+                title: metaData['Gallery'].title || "Galeria da Edição Anterior"
+              }}
             />
           </div>
         )}
