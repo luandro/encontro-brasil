@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 
 // Load environment variables from .env file
 dotenv.config();
+console.log('Environment variables:', process.env);
 
 if (!process.env.NOTION_API_KEY) {
   throw new Error("NOTION_API_KEY is not defined in the environment variables.");
