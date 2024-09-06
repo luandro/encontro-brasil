@@ -116,10 +116,14 @@ const MediaGallery = ({ markdown, metaData }) => {
                 <ChevronRight className="h-6 w-6" />
               </Button>
             </div>
-            <div className="bg-[#F5E6D3] p-4">
-              <h3 className="text-caption text-black mb-2">{currentItem?.title}</h3>
+            <div className="relative">
+              <div className="absolute z-10 bottom-24 left-4 bg-[#F5E6D3] p-4 rounded-lg shadow-md">
+                <h3 className="text-caption text-black">{currentItem?.title}</h3>
+              </div>
               {currentItem?.description && (
-                <p className="text-sm text-gray-600">{currentItem.description}</p>
+                <div className="bg-[#F5E6D3] p-4 mt-4">
+                  <p className="text-sm text-gray-600">{currentItem.description}</p>
+                </div>
               )}
             </div>
           </div>
