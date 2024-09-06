@@ -96,11 +96,13 @@ const MediaGallery = ({ markdown, metaData }) => {
               <X className="h-4 w-4" />
             </Button>
             <div className="flex-grow flex items-center justify-center p-4 relative">
-              {currentItem?.image ? (
-                <img src={currentItem.image} alt={currentItem.title} className="max-w-full max-h-full object-contain" />
-              ) : currentItem?.video ? (
-                <iframe src={currentItem.video} title={currentItem.title} className="w-full h-full" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-              ) : null}
+              <div className="w-full h-full flex items-center justify-center">
+                {currentItem?.image ? (
+                  <img src={currentItem.image} alt={currentItem.title} className="max-w-full max-h-[calc(100%-60px)] object-contain" />
+                ) : currentItem?.video ? (
+                  <iframe src={currentItem.video} title={currentItem.title} className="w-full h-[calc(100%-60px)]" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                ) : null}
+              </div>
               <Button 
                 onClick={() => navigateGallery('prev')} 
                 className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-[#F5E6D3] text-black hover:bg-[#E6D7C4]"
@@ -116,14 +118,10 @@ const MediaGallery = ({ markdown, metaData }) => {
                 <ChevronRight className="h-6 w-6" />
               </Button>
             </div>
-            <div className="relative">
-              <div className="absolute z-10 bottom-24 left-4 bg-[#F5E6D3] p-4 rounded-lg shadow-md">
-                <h3 className="text-caption text-black">{currentItem?.title}</h3>
-              </div>
+            <div className="absolute bottom-0 left-0 right-0 bg-[#F5E6D3] p-4">
+              <h3 className="text-caption text-black mb-2">{currentItem?.title}</h3>
               {currentItem?.description && (
-                <div className="bg-[#F5E6D3] p-4 mt-4">
-                  <p className="text-sm text-gray-600">{currentItem.description}</p>
-                </div>
+                <p className="text-sm text-gray-600">{currentItem.description}</p>
               )}
             </div>
           </div>
