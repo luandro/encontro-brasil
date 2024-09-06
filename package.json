@@ -1,7 +1,6 @@
 {
-  "name": "encontro-territorial-brasil",
-  "private": true,
-  "version": "0.0.0",
+  "name": "notion-event-page",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,7 +8,8 @@
     "build:dev": "vite build --mode development",
     "notionToMd": "node src/scripts/fetchNotion.js",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "npm run notionToMd"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
