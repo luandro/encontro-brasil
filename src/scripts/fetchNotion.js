@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { fetchNotionData, fetchNotionPage, fetchNotionBlocks } from '../lib/fetchNotionData.js';
+import { fetchNotionData } from '../lib/fetchNotionData.js';
 import { generateBlocks } from '../lib/generateBlocks.js';
 // import { updateJson } from '../lib/updateJson.js';
 
