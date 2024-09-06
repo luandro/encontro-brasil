@@ -37,25 +37,28 @@ async function downloadAndProcessImage(url, blockName, index) {
     const filepath = path.join(IMAGES_PATH, filename);
 
     spinner.text = `Processing image ${index + 1}: Resizing`;
-    buffer = await processImage(buffer, filepath);
+    const { outputBuffer: resizedBuffer, originalSize, processedSize } = await processImage(buffer, filepath);
 
     spinner.text = `Processing image ${index + 1}: Compressing`;
-    buffer = await compressImage(buffer, filepath);
+    const { compressedBuffer, compressedSize } = await compressImage(resizedBuffer, filepath);
 
     // Save the processed and compressed image
-    fs.writeFileSync(filepath, buffer);
+    fs.writeFileSync(filepath, compressedBuffer);
     spinner.succeed(chalk.green(`Image ${index + 1} processed and saved: ${filepath}`));
-    return `/content/images/${filename}`;
+    
+    const savedBytes = originalSize - compressedSize;
+    return { newPath: `/content/images/${filename}`, savedBytes };
   } catch (error) {
     spinner.fail(chalk.red(`Error processing image ${index + 1} from ${url}`));
     console.error(error);
-    return url;
+    return { newPath: url, savedBytes: 0 };
   }
 }
 
 export async function generateBlocks(data, progressCallback) {
   const blocks = [];
   const totalPages = data.length;
+  let totalSaved = 0;
 
   for (let i = 0; i < totalPages; i++) {
     const page = data[i];
@@ -78,9 +81,10 @@ export async function generateBlocks(data, progressCallback) {
             if (!imgUrl.startsWith('http')) continue; // Skip local images
             const fullMatch = match[0];
             imgPromises.push(
-              downloadAndProcessImage(imgUrl, websiteBlock, imgIndex).then(newPath => {
+              downloadAndProcessImage(imgUrl, websiteBlock, imgIndex).then(({ newPath, savedBytes }) => {
                 const newImageMarkdown = fullMatch.replace(imgUrl, newPath);
                 markdownString.parent = markdownString.parent.replace(fullMatch, newImageMarkdown);
+                totalSaved += savedBytes;
               })
             );
             imgIndex++;
@@ -115,4 +119,6 @@ export async function generateBlocks(data, progressCallback) {
   const jsonFilePath = path.join(CONTENT_PATH, "notionBlocks.json");
   fs.writeFileSync(jsonFilePath, JSON.stringify(blocks, null, 2), 'utf8');
   console.log(chalk.green("\nnotionBlocks.json has been generated successfully."));
+
+  return { totalSaved };
 }

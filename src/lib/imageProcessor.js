@@ -23,13 +23,13 @@ export async function processImage(inputBuffer, outputPath, maxWidth = 1280) {
         break;
       // SVG doesn't need processing
       case '.svg':
-        return inputBuffer;
+        return { outputBuffer: inputBuffer, originalSize: inputBuffer.length, processedSize: inputBuffer.length };
       default:
         throw new Error(`Unsupported image format: ${ext}`);
     }
 
     const outputBuffer = await pipeline.toBuffer();
-    return outputBuffer;
+    return { outputBuffer, originalSize: inputBuffer.length, processedSize: outputBuffer.length };
   } catch (error) {
     console.error('Error processing image:', error);
     throw error;

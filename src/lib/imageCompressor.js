@@ -23,7 +23,7 @@ export async function compressImage(inputBuffer, outputPath) {
     ];
 
     const compressedBuffer = await imagemin.buffer(inputBuffer, { plugins });
-    return compressedBuffer;
+    return { compressedBuffer, originalSize: inputBuffer.length, compressedSize: compressedBuffer.length };
   } catch (error) {
     console.error('Error compressing image:', error);
     throw error;

@@ -25,7 +25,7 @@ async function main() {
     fetchSpinner.succeed(chalk.green('Data fetched successfully'));
 
     const generateSpinner = ora('Generating blocks').start();
-    await generateBlocks(data, (progress) => {
+    const { totalSaved } = await generateBlocks(data, (progress) => {
       generateSpinner.text = chalk.blue(`Generating blocks: ${progress.current}/${progress.total}`);
     });
     generateSpinner.succeed(chalk.green('Blocks generated successfully'));
@@ -33,6 +33,7 @@ async function main() {
     // updateJson(data);
 
     console.log(chalk.bold.green('\n✨ All tasks completed successfully!'));
+    console.log(chalk.bold.cyan(`Total kilobytes saved: ${(totalSaved / 1024).toFixed(2)} KB`));
   } catch (error) {
     console.error(chalk.bold.red("\n❌ Error updating files:"), error);
   }
