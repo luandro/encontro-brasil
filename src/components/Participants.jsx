@@ -40,7 +40,7 @@ const Participants = ({ markdownContent }) => {
   const { title, organizations } = parseParticipantsData(markdownContent);
 
   return (
-    <section id="participants" className="my-12 px-4">
+    <section className="my-12 px-4">
       <h2 className="text-3xl font-bold mb-10 text-center">{title}</h2>
       {organizations.map((org) => (
         <div key={org.name} className="mb-12">
