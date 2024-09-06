@@ -95,12 +95,12 @@ const MediaGallery = ({ markdown, metaData }) => {
             >
               <X className="h-4 w-4" />
             </Button>
-            <div className="flex-grow flex items-center justify-center p-4 relative">
-              <div className="w-full h-full flex items-center justify-center">
+            <div className="flex-grow flex items-center justify-center p-4 relative overflow-hidden">
+              <div className="w-full h-full flex items-center justify-center mb-20">
                 {currentItem?.image ? (
-                  <img src={currentItem.image} alt={currentItem.title} className="max-w-full max-h-[calc(100%-80px)] object-contain mb-4" />
+                  <img src={currentItem.image} alt={currentItem.title} className="max-w-full max-h-full object-contain" />
                 ) : currentItem?.video ? (
-                  <iframe src={currentItem.video} title={currentItem.title} className="w-full h-[calc(100%-80px)]" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                  <iframe src={currentItem.video} title={currentItem.title} className="w-full h-full" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                 ) : null}
               </div>
               <Button 
