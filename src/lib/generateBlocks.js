@@ -19,8 +19,17 @@ async function downloadImage(url, blockName, index) {
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
     const buffer = Buffer.from(response.data, 'binary');
-    const extension = path.extname(url).toLowerCase() || '.jpg'; // Default to .jpg if no extension
-    const filename = `${blockName}_${index}${extension}`;
+    
+    // Remove query parameters from the URL
+    const cleanUrl = url.split('?')[0];
+    
+    // Get the file extension, defaulting to .jpg if not present
+    const extension = path.extname(cleanUrl).toLowerCase() || '.jpg';
+    
+    // Create a short, sanitized filename
+    const sanitizedBlockName = blockName.replace(/[^a-z0-9]/gi, '').toLowerCase().slice(0, 20);
+    const filename = `${sanitizedBlockName}_${index}${extension}`;
+    
     const filepath = path.join(IMAGES_PATH, filename);
     fs.writeFileSync(filepath, buffer);
     console.log(`Image downloaded and saved: ${filepath}`);
@@ -52,7 +61,7 @@ export async function generateBlocks(data) {
           if (!imgUrl.startsWith('http')) continue; // Skip local images
           const fullMatch = match[0];
           imgPromises.push(
-            downloadImage(imgUrl, websiteBlock.replace(/\s+/g, ''), imgIndex).then(newPath => {
+            downloadImage(imgUrl, websiteBlock, imgIndex).then(newPath => {
               const newImageMarkdown = fullMatch.replace(imgUrl, newPath);
               markdownString.parent = markdownString.parent.replace(fullMatch, newImageMarkdown);
             })
