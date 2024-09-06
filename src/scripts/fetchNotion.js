@@ -1,4 +1,6 @@
 import dotenv from 'dotenv';
+import ora from 'ora';
+import chalk from 'chalk';
 import { fetchNotionData } from '../lib/fetchNotionData.js';
 import { generateBlocks } from '../lib/generateBlocks.js';
 // import { updateJson } from '../lib/updateJson.js';
@@ -7,18 +9,32 @@ import { generateBlocks } from '../lib/generateBlocks.js';
 dotenv.config();
 
 async function main() {
+  console.log(chalk.bold.cyan('🚀 Starting Notion data fetch and processing\n'));
+
   // Check if NOTION_API_KEY is defined
   if (!process.env.NOTION_API_KEY) {
-    console.error("Error: NOTION_API_KEY is not defined in the environment variables.");
+    console.error(chalk.bold.red("Error: NOTION_API_KEY is not defined in the environment variables."));
     process.exit(1);
   }
+
   try {
-	const tag = process.env.WEBSITE_TAG;
+    const tag = process.env.WEBSITE_TAG;
+    
+    const fetchSpinner = ora('Fetching data from Notion').start();
     const data = await fetchNotionData(tag);
-    await generateBlocks(data);
+    fetchSpinner.succeed(chalk.green('Data fetched successfully'));
+
+    const generateSpinner = ora('Generating blocks').start();
+    await generateBlocks(data, (progress) => {
+      generateSpinner.text = chalk.blue(`Generating blocks: ${progress.current}/${progress.total}`);
+    });
+    generateSpinner.succeed(chalk.green('Blocks generated successfully'));
+
     // updateJson(data);
+
+    console.log(chalk.bold.green('\n✨ All tasks completed successfully!'));
   } catch (error) {
-    console.error("Error updating files:", error);
+    console.error(chalk.bold.red("\n❌ Error updating files:"), error);
   }
 }
 

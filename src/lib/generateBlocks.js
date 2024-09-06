@@ -3,6 +3,8 @@ import path from "node:path";
 import { fileURLToPath } from 'url';
 import { n2m } from './notionClient.js';
 import axios from 'axios';
+import chalk from 'chalk';
+import ora from 'ora';
 import { processImage } from './imageProcessor.js';
 import { compressImage } from './imageCompressor.js';
 
@@ -17,6 +19,7 @@ fs.mkdirSync(CONTENT_PATH, { recursive: true });
 fs.mkdirSync(IMAGES_PATH, { recursive: true });
 
 async function downloadAndProcessImage(url, blockName, index) {
+  const spinner = ora(`Processing image ${index + 1}`).start();
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
     let buffer = Buffer.from(response.data, 'binary');
@@ -33,70 +36,83 @@ async function downloadAndProcessImage(url, blockName, index) {
     
     const filepath = path.join(IMAGES_PATH, filename);
 
-    // Process the image
+    spinner.text = `Processing image ${index + 1}: Resizing`;
     buffer = await processImage(buffer, filepath);
 
-    // Compress the image
+    spinner.text = `Processing image ${index + 1}: Compressing`;
     buffer = await compressImage(buffer, filepath);
 
     // Save the processed and compressed image
     fs.writeFileSync(filepath, buffer);
-    console.log(`Image downloaded, processed, and saved: ${filepath}`);
+    spinner.succeed(chalk.green(`Image ${index + 1} processed and saved: ${filepath}`));
     return `/content/images/${filename}`;
   } catch (error) {
-    console.error(`Error processing image from ${url}:`, error);
+    spinner.fail(chalk.red(`Error processing image ${index + 1} from ${url}`));
+    console.error(error);
     return url;
   }
 }
 
-export async function generateBlocks(data) {
+export async function generateBlocks(data, progressCallback) {
   const blocks = [];
+  const totalPages = data.length;
 
-  for (const page of data) {
-    const markdown = await n2m.pageToMarkdown(page.id);
-    let markdownString = n2m.toMarkdownString(markdown);
-    
-    if (markdownString && markdownString.parent) {
-      const websiteBlock = page.properties["Website Block"]?.select?.name;
-      if (websiteBlock) {
-        // Process images
-        const imgRegex = /!\[.*?\]\((.*?)\)/g;
-        const imgPromises = [];
-        let match;
-        let imgIndex = 0;
-        while ((match = imgRegex.exec(markdownString.parent)) !== null) {
-          const imgUrl = match[1];
-          if (!imgUrl.startsWith('http')) continue; // Skip local images
-          const fullMatch = match[0];
-          imgPromises.push(
-            downloadAndProcessImage(imgUrl, websiteBlock, imgIndex).then(newPath => {
-              const newImageMarkdown = fullMatch.replace(imgUrl, newPath);
-              markdownString.parent = markdownString.parent.replace(fullMatch, newImageMarkdown);
-            })
-          );
-          imgIndex++;
+  for (let i = 0; i < totalPages; i++) {
+    const page = data[i];
+    const pageSpinner = ora(`Processing page ${i + 1}/${totalPages}`).start();
+
+    try {
+      const markdown = await n2m.pageToMarkdown(page.id);
+      let markdownString = n2m.toMarkdownString(markdown);
+      
+      if (markdownString && markdownString.parent) {
+        const websiteBlock = page.properties["Website Block"]?.select?.name;
+        if (websiteBlock) {
+          // Process images
+          const imgRegex = /!\[.*?\]\((.*?)\)/g;
+          const imgPromises = [];
+          let match;
+          let imgIndex = 0;
+          while ((match = imgRegex.exec(markdownString.parent)) !== null) {
+            const imgUrl = match[1];
+            if (!imgUrl.startsWith('http')) continue; // Skip local images
+            const fullMatch = match[0];
+            imgPromises.push(
+              downloadAndProcessImage(imgUrl, websiteBlock, imgIndex).then(newPath => {
+                const newImageMarkdown = fullMatch.replace(imgUrl, newPath);
+                markdownString.parent = markdownString.parent.replace(fullMatch, newImageMarkdown);
+              })
+            );
+            imgIndex++;
+          }
+          await Promise.all(imgPromises);
+
+          const fileName = `${websiteBlock.replace(/\s+(.)/g, (_, c) => c.toUpperCase())}.md`;
+          const filePath = path.join(CONTENT_PATH, fileName);
+          fs.writeFileSync(filePath, markdownString.parent, 'utf8');
+          
+          blocks.push({
+            name: websiteBlock,
+            fileName: fileName
+          });
+
+          pageSpinner.succeed(chalk.green(`Page ${i + 1}/${totalPages} processed: ${fileName}`));
+        } else {
+          pageSpinner.fail(chalk.yellow(`No 'Website Block' property found for page ${i + 1}/${totalPages}: ${page.id}`));
         }
-        await Promise.all(imgPromises);
-
-        const fileName = `${websiteBlock.replace(/\s+(.)/g, (_, c) => c.toUpperCase())}.md`;
-        const filePath = path.join(CONTENT_PATH, fileName);
-        fs.writeFileSync(filePath, markdownString.parent, 'utf8');
-        console.log(`${fileName} has been generated successfully.`);
-        
-        blocks.push({
-          name: websiteBlock,
-          fileName: fileName
-        });
       } else {
-        console.error("No 'Website Block' property found for page:", page.id);
+        pageSpinner.fail(chalk.yellow(`Unexpected markdown structure for page ${i + 1}/${totalPages}: ${page.id}`));
       }
-    } else {
-      console.error("Unexpected markdown structure for page:", page.id);
+    } catch (error) {
+      pageSpinner.fail(chalk.red(`Error processing page ${i + 1}/${totalPages}: ${page.id}`));
+      console.error(error);
     }
+
+    progressCallback({ current: i + 1, total: totalPages });
   }
 
   // Generate JSON file
   const jsonFilePath = path.join(CONTENT_PATH, "notionBlocks.json");
   fs.writeFileSync(jsonFilePath, JSON.stringify(blocks, null, 2), 'utf8');
-  console.log("notionBlocks.json has been generated successfully.");
+  console.log(chalk.green("\nnotionBlocks.json has been generated successfully."));
 }
