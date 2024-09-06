@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
@@ -32,6 +32,23 @@ const MediaGallery = ({ markdown, metaData }) => {
     setCurrentItemIndex(newItemIndex);
     setCurrentItem(currentSection.items[newItemIndex]);
   }, [currentSectionIndex, currentItemIndex, galleryItems]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (currentItem) {
+        if (event.key === 'ArrowLeft') {
+          navigateGallery('prev');
+        } else if (event.key === 'ArrowRight') {
+          navigateGallery('next');
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [currentItem, navigateGallery]);
 
   return (
     <section id="gallery" className="py-16 bg-[#F5E6D3]">
@@ -78,12 +95,26 @@ const MediaGallery = ({ markdown, metaData }) => {
             >
               <X className="h-4 w-4" />
             </Button>
-            <div className="flex-grow flex items-center justify-center p-4">
+            <div className="flex-grow flex items-center justify-center p-4 relative">
               {currentItem?.image ? (
                 <img src={currentItem.image} alt={currentItem.title} className="max-w-full max-h-full object-contain" />
               ) : currentItem?.video ? (
                 <iframe src={currentItem.video} title={currentItem.title} className="w-full h-full" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
               ) : null}
+              <Button 
+                onClick={() => navigateGallery('prev')} 
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-[#F5E6D3] text-black hover:bg-[#E6D7C4]"
+                size="icon"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </Button>
+              <Button 
+                onClick={() => navigateGallery('next')} 
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[#F5E6D3] text-black hover:bg-[#E6D7C4]"
+                size="icon"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </Button>
             </div>
             <div className="bg-[#F5E6D3] p-4 flex flex-col sm:flex-row justify-between items-center">
               <h3 className="text-caption text-black mb-2 sm:mb-0">{currentItem?.title}</h3>
