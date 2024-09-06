@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useNotionBlocks, useMarkdownData } from '@/lib/api';
 import { useMarkdownProcessor, useActiveSection } from '@/lib/hooks';
 import { smoothScroll, extractEventInformation } from '@/lib/utils';
@@ -22,7 +22,17 @@ const Index = () => {
   const { data: notionBlocks, isLoading: isLoadingNotionBlocks } = useNotionBlocks();
   const { data: markdownData, isLoading: isLoadingMarkdown } = useMarkdownData(notionBlocks);
   const { markdownContents, metaData } = useMarkdownProcessor(markdownData);
-  const activeSection = useActiveSection(sectionRefs);
+  const activeSection = useActiveSection(Object.values(sectionRefs));
+
+  useEffect(() => {
+    // Forçar uma reavaliação do activeSection quando o conteúdo for carregado
+    if (!isLoadingNotionBlocks && !isLoadingMarkdown) {
+      const timer = setTimeout(() => {
+        window.dispatchEvent(new Event('scroll'));
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoadingNotionBlocks, isLoadingMarkdown]);
 
   if (isLoadingNotionBlocks || isLoadingMarkdown) {
     return <div className="flex justify-center items-center h-screen bg-[#FFF5E1]">
