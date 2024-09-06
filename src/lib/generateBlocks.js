@@ -2,25 +2,60 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from 'url';
 import { n2m } from './notionClient.js';
+import axios from 'axios';
+import crypto from 'crypto';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const CONTENT_PATH = path.join(__dirname, "../../public/content/");
+const IMAGES_PATH = path.join(CONTENT_PATH, "images/");
 
 // Ensure directories exist
 fs.mkdirSync(CONTENT_PATH, { recursive: true });
+fs.mkdirSync(IMAGES_PATH, { recursive: true });
+
+async function downloadImage(url) {
+  try {
+    const response = await axios.get(url, { responseType: 'arraybuffer' });
+    const buffer = Buffer.from(response.data, 'binary');
+    const hash = crypto.createHash('md5').update(buffer).digest('hex');
+    const extension = path.extname(url);
+    const filename = `${hash}${extension}`;
+    const filepath = path.join(IMAGES_PATH, filename);
+    fs.writeFileSync(filepath, buffer);
+    return `/content/images/${filename}`;
+  } catch (error) {
+    console.error(`Error downloading image from ${url}:`, error);
+    return url;
+  }
+}
 
 export async function generateBlocks(data) {
   const blocks = [];
 
   for (const page of data) {
     const markdown = await n2m.pageToMarkdown(page.id);
-    const markdownString = n2m.toMarkdownString(markdown);
+    let markdownString = n2m.toMarkdownString(markdown);
     console.log("Markdown content:", markdownString);
     
     if (markdownString && markdownString.parent) {
       const websiteBlock = page.properties["Website Block"]?.select?.name;
       if (websiteBlock) {
+        // Process images
+        const imgRegex = /!\[.*?\]\((.*?)\)/g;
+        const imgPromises = [];
+        let match;
+        while ((match = imgRegex.exec(markdownString.parent)) !== null) {
+          const imgUrl = match[1];
+          imgPromises.push(
+            downloadImage(imgUrl).then(newPath => {
+              markdownString.parent = markdownString.parent.replace(imgUrl, newPath);
+            })
+          );
+        }
+        await Promise.all(imgPromises);
+
         const fileName = `${websiteBlock.replace(/\s+(.)/g, (_, c) => c.toUpperCase())}.md`;
         const filePath = path.join(CONTENT_PATH, fileName);
         fs.writeFileSync(filePath, markdownString.parent, 'utf8');
