@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'node:url';
 import { n2m } from './notionClient.js';
 import axios from 'axios';
 import chalk from 'chalk';
@@ -73,7 +73,7 @@ export async function generateBlocks(data, progressCallback) {
       const markdown = await n2m.pageToMarkdown(page.id);
       const markdownString = n2m.toMarkdownString(markdown);
       
-      if (markdownString && markdownString.parent) {
+      if (markdownString?.parent) {
         const websiteBlock = page.properties["Website Block"]?.select?.name;
         if (websiteBlock) {
           // Process images

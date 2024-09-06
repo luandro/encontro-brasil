@@ -67,7 +67,7 @@ const MediaGallery = ({ markdown, metaData }) => {
                         {item.image ? (
                           <img src={item.image} alt={item.title} className="object-cover w-full h-full" />
                         ) : item.video ? (
-                          <iframe src={item.video} title={item.title} className="w-full h-full" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                          <iframe src={item.video} title={item.title} className="w-full h-full" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
                         ) : null}
                       </div>
                       <div className="p-4">
@@ -100,7 +100,7 @@ const MediaGallery = ({ markdown, metaData }) => {
                 {currentItem?.image ? (
                   <img src={currentItem.image} alt={currentItem.title} className="max-w-full max-h-full object-contain" />
                 ) : currentItem?.video ? (
-                  <iframe src={currentItem.video} title={currentItem.title} className="w-full h-full" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                  <iframe src={currentItem.video} title={currentItem.title} className="w-full h-full" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
                 ) : null}
               </div>
               <Button 

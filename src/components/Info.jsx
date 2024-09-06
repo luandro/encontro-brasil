@@ -44,7 +44,7 @@ const Info = ({ content }) => {
                       max={64}
                       className={`w-full text-[${colors[colorIndex]}] uppercase font-semibold leading-none`}
                     >
-                      {index === array.length - 1 ? 'de ' + line.trim() : line.trim()}
+                      {index === array.length - 1 ? `de ${line.trim()}` : line.trim()}
                     </Textfit>
                   </div>
                 );

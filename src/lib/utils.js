@@ -92,12 +92,12 @@ export const extractEventInformation = (markdown) => {
           eventInfo.localMedia = match[2];
         }
       } else {
-        eventInfo.local += line.trim() + ' ';
+        eventInfo.local += `${line.trim()} `;
       }
     } else if (currentSection === 'data' && line.trim() !== '') {
-      eventInfo.data += line.trim() + ' ';
+      eventInfo.data += `${line.trim()} `;
     } else if (currentSection === 'organization' && line.trim() !== '') {
-      eventInfo.organization += line.trim() + ' ';
+      eventInfo.organization += `${line.trim()} `;
     }
   });
 

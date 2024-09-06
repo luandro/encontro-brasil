@@ -67,20 +67,20 @@ const Index = () => {
             <Schedule title={scheduleTitle} scheduleItems={scheduleItems} />
           </div>
         )}
-        {metaData['Participants'] && markdownContents['Participants'] && (
+        {metaData.Participants && markdownContents.Participants && (
           <div id="participants" ref={sectionRefs.participants} className="min-h-screen">
             <Participants 
-              markdownContent={markdownContents['Participants']}
+              markdownContent={markdownContents.Participants}
             />
           </div>
         )}
-        {markdownContents['Gallery'] && metaData['Gallery'] && (
-          <div id="gallery" ref={sectionRefs['gallery']}>
+        {markdownContents.Gallery && metaData.Gallery && (
+          <div id="gallery" ref={sectionRefs.gallery}>
             <MediaGallery
-              markdown={markdownContents['Gallery']}
+              markdown={markdownContents.Gallery}
               metaData={{
-                ...metaData['Gallery'],
-                title: metaData['Gallery'].title || "Galeria da Edição Anterior"
+                ...metaData.Gallery,
+                title: metaData.Gallery.title || "Galeria da Edição Anterior"
               }}
             />
           </div>

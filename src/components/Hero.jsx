@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import ReactMarkdown from 'react-markdown';
 
 const Hero = ({ title, title2, subTitle, logos, onSmoothScroll }) => {
 

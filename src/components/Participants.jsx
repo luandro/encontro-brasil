@@ -22,7 +22,7 @@ const parseParticipantsData = (markdownContent) => {
             if (content[i].startsWith('### ') || content[i].startsWith('## ')) {
               break;
             }
-            description += content[i].trim() + '\n';
+            description += `${content[i].trim()}\n`;
           }
           return { name: participantName, description: description.trim() };
         });

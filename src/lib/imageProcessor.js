@@ -1,5 +1,5 @@
 import sharp from 'sharp';
-import path from 'path';
+import path from 'node:path';
 
 export async function processImage(inputBuffer, outputPath, maxWidth = 1280) {
   try {
