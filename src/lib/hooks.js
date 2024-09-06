@@ -45,19 +45,17 @@ export const useActiveSection = (sectionRefs) => {
           }
         });
       },
-      { threshold: 0.5, rootMargin: "0px 0px -200px 0px" }
+      { threshold: 0.1, rootMargin: "-10% 0px -70% 0px" }
     );
 
-    const currentRefs = Object.values(sectionRefs).filter(ref => ref.current);
-    
-    currentRefs.forEach((ref) => {
+    Object.entries(sectionRefs).forEach(([id, ref]) => {
       if (ref.current) {
         observer.observe(ref.current);
       }
     });
 
     return () => {
-      currentRefs.forEach((ref) => {
+      Object.values(sectionRefs).forEach((ref) => {
         if (ref.current) {
           observer.unobserve(ref.current);
         }

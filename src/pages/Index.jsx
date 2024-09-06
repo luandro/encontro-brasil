@@ -68,7 +68,7 @@ const Index = () => {
           </div>
         )}
         {metaData['Participants'] && markdownContents['Participants'] && (
-          <div id="participants" ref={sectionRefs.participants}>
+          <div id="participants" ref={sectionRefs.participants} className="min-h-screen">
             <Participants 
               markdownContent={markdownContents['Participants']}
             />
