@@ -15,13 +15,12 @@ const IMAGES_PATH = path.join(CONTENT_PATH, "images/");
 fs.mkdirSync(CONTENT_PATH, { recursive: true });
 fs.mkdirSync(IMAGES_PATH, { recursive: true });
 
-async function downloadImage(url) {
+async function downloadImage(url, blockName, index) {
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
     const buffer = Buffer.from(response.data, 'binary');
-    const hash = crypto.createHash('md5').update(buffer).digest('hex');
     const extension = path.extname(url).toLowerCase() || '.jpg'; // Default to .jpg if no extension
-    const filename = `${hash}${extension}`;
+    const filename = `${blockName}_${index}${extension}`;
     const filepath = path.join(IMAGES_PATH, filename);
     fs.writeFileSync(filepath, buffer);
     console.log(`Image downloaded and saved: ${filepath}`);
@@ -47,16 +46,18 @@ export async function generateBlocks(data) {
         const imgRegex = /!\[.*?\]\((.*?)\)/g;
         const imgPromises = [];
         let match;
+        let imgIndex = 0;
         while ((match = imgRegex.exec(markdownString.parent)) !== null) {
           const imgUrl = match[1];
           if (!imgUrl.startsWith('http')) continue; // Skip local images
           const fullMatch = match[0];
           imgPromises.push(
-            downloadImage(imgUrl).then(newPath => {
+            downloadImage(imgUrl, websiteBlock.replace(/\s+/g, ''), imgIndex).then(newPath => {
               const newImageMarkdown = fullMatch.replace(imgUrl, newPath);
               markdownString.parent = markdownString.parent.replace(fullMatch, newImageMarkdown);
             })
           );
+          imgIndex++;
         }
         await Promise.all(imgPromises);
 
