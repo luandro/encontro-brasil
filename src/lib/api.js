@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-const baseUrl = import.meta.env.BASE_URL || '/';
+const baseUrl = import.meta.env.BASE_URL && import.meta.env.BASE_URL !== '/' && import.meta.env.BASE_URL !== '' && import.meta.env.BASE_URL !== undefined
+  ? `/${import.meta.env.BASE_URL.replace(/^\/|\/$/g, '')}/`
+  : '/';
 
 export const fetchMarkdownContent = async (file) => {
   const response = await fetch(file);

@@ -9,6 +9,7 @@ import { processImage } from './imageProcessor.js';
 import { compressImage } from './imageCompressor.js';
 import dotenv from 'dotenv';
 dotenv.config();
+const baseUrl = process.env.BASE_URL;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,11 +20,6 @@ const IMAGES_PATH = path.join(CONTENT_PATH, "images/");
 // Ensure directories exist
 fs.mkdirSync(CONTENT_PATH, { recursive: true });
 fs.mkdirSync(IMAGES_PATH, { recursive: true });
-
-console.log('Content directory:', CONTENT_PATH);
-console.log('Images directory:', IMAGES_PATH);
-
-const baseUrl = process.env.BASE_URL || '/';
 
 async function downloadAndProcessImage(url, blockName, index) {
   const spinner = ora(`Processing image ${index + 1}`).start();
@@ -54,7 +50,7 @@ async function downloadAndProcessImage(url, blockName, index) {
     spinner.succeed(chalk.green(`Image ${index + 1} processed and saved: ${filepath}`));
     
     const savedBytes = originalSize - compressedSize;
-    const imagePath = `${baseUrl}content/images/${filename}`.replace('//', '/');
+    const imagePath = `content/images/${filename.replace(/\\/g, '/')}`;
     return { newPath: imagePath, savedBytes };
   } catch (error) {
     spinner.fail(chalk.red(`Error processing image ${index + 1} from ${url}`));
@@ -126,7 +122,7 @@ export async function generateBlocks(data, progressCallback) {
   // Generate JSON file
   const jsonFilePath = path.join(CONTENT_PATH, "notionBlocks.json");
   fs.writeFileSync(jsonFilePath, JSON.stringify(blocks, null, 2), 'utf8');
-  console.log(chalk.green(`\nnotionBlocks.json has been generated successfully at ${jsonFilePath}`));
+  console.log(chalk.green("\nnotionBlocks.json has been generated successfully."));
 
   return { totalSaved };
 }
