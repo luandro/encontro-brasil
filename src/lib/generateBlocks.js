@@ -7,6 +7,8 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { processImage } from './imageProcessor.js';
 import { compressImage } from './imageCompressor.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,6 +19,8 @@ const IMAGES_PATH = path.join(CONTENT_PATH, "images/");
 // Ensure directories exist
 fs.mkdirSync(CONTENT_PATH, { recursive: true });
 fs.mkdirSync(IMAGES_PATH, { recursive: true });
+
+const baseUrl = process.env.BASE_URL || '/';
 
 async function downloadAndProcessImage(url, blockName, index) {
   const spinner = ora(`Processing image ${index + 1}`).start();
@@ -47,7 +51,8 @@ async function downloadAndProcessImage(url, blockName, index) {
     spinner.succeed(chalk.green(`Image ${index + 1} processed and saved: ${filepath}`));
     
     const savedBytes = originalSize - compressedSize;
-    return { newPath: `/content/images/${filename}`, savedBytes };
+    const imagePath = `${baseUrl}content/images/${filename}`.replace('//', '/');
+    return { newPath: imagePath, savedBytes };
   } catch (error) {
     spinner.fail(chalk.red(`Error processing image ${index + 1} from ${url}`));
     console.error(error);

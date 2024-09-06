@@ -19,7 +19,7 @@ const NavBar = ({ onSmoothScroll, activeSection }) => {
     <header className="bg-[#FF6E40] py-6 fixed w-full z-10">
       <nav className="container mx-auto flex justify-between items-center">
         <img 
-          src="/logo_awana.png" 
+          src="logo_awana.png"
           alt="Evento image 1" 
           className="h-12 object-contain cursor-pointer" 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

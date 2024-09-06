@@ -7,13 +7,15 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 
 const queryClient = new QueryClient();
 
+const baseUrl = import.meta.env.BASE_URL || '/';
+
 const router = createBrowserRouter(
   navItems.map(({ to, page }) => ({
     path: to,
     element: page,
     errorElement: <ErrorBoundary />,
   })),
-  { basename: import.meta.env.BASE_URL }
+  { basename: baseUrl }
 );
 
 const App = () => (
