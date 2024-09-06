@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Dialog, DialogContent, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
@@ -68,23 +68,34 @@ const MediaGallery = ({ markdown, metaData }) => {
       </div>
 
       <Dialog open={!!currentItem} onOpenChange={closeDialog}>
-        <DialogContent className="max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-[95vw] w-full h-[95vh] p-0 overflow-hidden bg-[#F5E6D3]">
           <DialogTitle className="sr-only">{currentItem?.title}</DialogTitle>
-          <div className="p-6">
-            <div className="mb-4 w-full h-[60vh]">
+          <div className="relative w-full h-full flex flex-col">
+            <Button 
+              onClick={closeDialog} 
+              className="absolute top-4 right-4 z-10 bg-[#F5E6D3] text-black hover:bg-[#E6D7C4]"
+              size="icon"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+            <div className="flex-grow flex items-center justify-center p-4">
               {currentItem?.image ? (
-                <img src={currentItem.image} alt={currentItem.title} className="object-contain w-full h-full" />
+                <img src={currentItem.image} alt={currentItem.title} className="max-w-full max-h-full object-contain" />
               ) : currentItem?.video ? (
                 <iframe src={currentItem.video} title={currentItem.title} className="w-full h-full" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
               ) : null}
             </div>
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-caption">{currentItem?.title}</h3>
+            <div className="bg-[#F5E6D3] p-4 flex flex-col sm:flex-row justify-between items-center">
+              <h3 className="text-caption text-black mb-2 sm:mb-0">{currentItem?.title}</h3>
+              <div className="flex space-x-4">
+                <Button onClick={() => navigateGallery('prev')} variant="outline" className="bg-white text-black hover:bg-gray-100">
+                  <ChevronLeft className="mr-2" /> Anterior
+                </Button>
+                <Button onClick={() => navigateGallery('next')} variant="outline" className="bg-white text-black hover:bg-gray-100">
+                  Próximo <ChevronRight className="ml-2" />
+                </Button>
+              </div>
             </div>
-          </div>
-          <div className="flex justify-between p-4 bg-gray-100">
-            <Button onClick={() => navigateGallery('prev')} variant="outline"><ChevronLeft className="mr-2" /> Anterior</Button>
-            <Button onClick={() => navigateGallery('next')} variant="outline">Próximo <ChevronRight className="ml-2" /></Button>
           </div>
         </DialogContent>
       </Dialog>
