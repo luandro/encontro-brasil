@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run notionToMd && vite build",
     "build:dev": "vite build --mode development",
     "notionToMd": "node src/scripts/fetchNotion.js",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
