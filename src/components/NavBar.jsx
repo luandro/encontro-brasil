@@ -9,17 +9,17 @@ const NavBar = ({ onSmoothScroll, activeSection }) => {
   };
 
   const navItems = [
-    { label: 'Informações', target: 'informacoes' },
+    { label: 'Informações', target: 'information' },
     { label: 'Programação', target: 'schedule' },
     { label: 'Participantes', target: 'participants' },
-    { label: 'Gallery', target: 'gallery' },
+    { label: 'I Edição', target: 'gallery' },
   ];
 
   return (
     <header className="bg-[#FF6E40] py-6 fixed w-full z-10">
       <nav className="container mx-auto flex justify-between items-center">
         <img 
-          src="/logos/logo_awana.png" 
+          src="/logo_awana.png" 
           alt="Evento image 1" 
           className="h-12 object-contain cursor-pointer" 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

@@ -13,7 +13,7 @@ import Footer from '@/components/Footer';
 
 const Index = () => {
   const sectionRefs = {
-    informacoes: useRef(null),
+    information: useRef(null),
     schedule: useRef(null),
     participants: useRef(null),
     gallery: useRef(null),
@@ -48,7 +48,7 @@ const Index = () => {
           onSmoothScroll={smoothScroll}
         />
         {markdownContents['Event Information'] && (
-          <div id="informacoes" ref={sectionRefs.informacoes}>
+          <div id="information" ref={sectionRefs.information}>
             <Info content={markdownContents['Event Information']} />
           </div>
         )}

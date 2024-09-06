@@ -19,7 +19,7 @@ const Info = ({ content }) => {
   const localText = localContent?.replace(/!\[.*?\]\(.*?\)/, '').trim();
 
   return (
-    <section id="informacoes" className="mb-20">
+    <section id="information" className="mb-20">
       <h2 className="text-5xl font-bold mb-12 text-center text-[#FF6E40]">Informações do Evento</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
         {dateContent && (
